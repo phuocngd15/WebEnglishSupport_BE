@@ -16,5 +16,22 @@ exports.postAccount = async function(account, err){
     } catch (error) {
         throw e;
     }
+};
+exports.getAccount = async function(id, err){
+    try {
+        let acc = await Account.findById(id);
+        return acc;
+    } catch (error) {
+        throw e;
+    }
+};
+exports.updateAccount = async function(account, err){
+    try {
+        let acc = await Account.findByIdAndUpdate(account, account.id);
+        Account.save();
+        return acc;
+    } catch (error) {
+        throw e;
+    }
 }
 

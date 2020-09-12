@@ -9,7 +9,8 @@ const account = new mongoose.Schema({
     phone:String,
     username: String,
     levels: String,
-    achievement :String
+    achievement :String,
+    status:Boolean
 })
 
 module.exports = mongoose.model("Account", account);

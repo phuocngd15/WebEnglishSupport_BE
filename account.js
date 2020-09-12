@@ -28,11 +28,11 @@ app.use(r);
 
 
 
-app.get("/:id", function (req, res) {
-    let id = req.params.id;
-    Account.findById(id, {})
-        .then(data => res.json(data));
-})
+// app.get("/:id", function (req, res) {
+//     let id = req.params.id;
+//     Account.findById(id, {})
+//         .then(data => res.json(data));
+// })
 app.put("/:id", function (req, res) {
     let id = req.params.id;
     Account.findById(id, {})
