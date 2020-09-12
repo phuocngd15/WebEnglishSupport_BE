@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const port = 5000;
-const Account = require("./mongodb/account");
+const Account = require("./register/registerModel");
 const path = require('path');
 const fs = require('fs');
 // put the HTML file containing your form in a directory named "public" (relative to where this script is located)
@@ -21,31 +21,12 @@ mongoose.connect("mongodb://localhost/account", {
     useCreateIndex: true,
 }).then(() => { console.log("DB is connected") })
 
-// ROUTES
-app.get("/", (req, res) => {
-    Account.find(function (err, account) {
-        if (err) {
-            res.json(err.message);
-        } else {
-            res.json(account)
-        }
-    })
-})
 
-app.post("/register", (req, res) => {
-    Account.create(req.body, function (err, account) {
-        if (err) {
-            res.json(err.message);
-            console.log(err);
-            return res.redirect("/");
-        }
-        account = req.body;
-        // account.save();
-        // res.json(req.body)
-        res.json(account)
-    });
+// Register
+const r = require('./register/registerRouter');
+app.use(r);
 
-});
+
 
 app.get("/:id", function (req, res) {
     let id = req.params.id;
