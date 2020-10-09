@@ -4,26 +4,34 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const port = 5000;
-const Account = require("./register/registerModel");
+const Account = require("./resources/register/registerModel");
 const path = require('path');
 const fs = require('fs');
 // put the HTML file containing your form in a directory named "public" (relative to where this script is located)
 app.get("/", express.static(path.join(__dirname, "./public")));
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true
+}));
+app.use(bodyParser.json({
+    limit: "50mb",
+    extended: true
+}));
 
 // Connect db
 mongoose.connect("mongodb://localhost/account", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
-}).then(() => { console.log("DB is connected") })
+}).then(() => {
+    console.log("DB is connected")
+})
 
 
 // Register
-const r = require('./register/registerRouter');
+const r = require('./resources/register/registerRouter');
 app.use(r);
 
 
