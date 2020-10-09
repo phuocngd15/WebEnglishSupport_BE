@@ -43,7 +43,7 @@ yarn-error.log*
 *.rar
 *.tar
 *.zip
-
+package-lock.json
 # Logs and databases #
 ######################
 *.log
