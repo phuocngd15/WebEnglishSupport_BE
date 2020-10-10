@@ -1,15 +1,6 @@
-const express = require('express');
-const trackRoute = express.Router();
-const multer = require('multer');
-
-const mongodb = require('mongodb');
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
-
-const { Readable } = require('stream');
-
-const app = express();
-app.use('/tracks', trackRoute);
+import mongodb, { MongoClient, ObjectID } from 'mongodb';
+import multer from 'multer';
+import { Readable } from 'stream';
 
 let db;
 MongoClient.connect(
@@ -26,7 +17,7 @@ MongoClient.connect(
   }
 );
 
-trackRoute.get('/:trackID', (req, res) => {
+export const getOne = model => async (req, res) => {
   try {
     var trackID = new ObjectID(req.params.trackID);
   } catch (err) {
@@ -55,9 +46,9 @@ trackRoute.get('/:trackID', (req, res) => {
   downloadStream.on('end', () => {
     res.end();
   });
-});
+};
 
-trackRoute.post('/', (req, res) => {
+export const createOne = model => async (req, res) => {
   const storage = multer.memoryStorage();
   const upload = multer({
     storage: storage,
@@ -98,8 +89,4 @@ trackRoute.post('/', (req, res) => {
       });
     });
   });
-});
-
-app.listen(3005, () => {
-  console.log('App listening on port 3005!');
-});
+};

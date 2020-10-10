@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const crudImg = new mongoose.Schema({
-    // title:String,
-    image:String
-})
+  // title:String,
+  image: String
+});
 
-module.exports =mongoose.model("crudImg", crudImg);
+module.exports = mongoose.model('crudImg', crudImg);

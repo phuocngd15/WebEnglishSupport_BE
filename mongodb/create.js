@@ -1,19 +1,17 @@
-
 var mongodb = require('mongodb');
 var assert = require('assert');
 var fs = require('fs');
 var MongoClient = mongodb.MongoClient;
-var url = "mongodb://localhost:27017/KoiEnglish"
+var url = 'mongodb://localhost:27017/KoiEnglish';
 MongoClient.connect(
-    url,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    function (error, databases) {
-        if (error) {
-            throw error;
-
-        }
-        var dbase = databases.db("KoiEnglish");
-        /*  dbase.createCollection("cardsClt", function (error, response) {
+  url,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  function(error, databases) {
+    if (error) {
+      throw error;
+    }
+    var dbase = databases.db('KoiEnglish');
+    /*  dbase.createCollection("cardsClt", function (error, response) {
              if (error) {
                  throw error;
              }
@@ -21,15 +19,16 @@ MongoClient.connect(
              databases.close();
          }); * / */
 
-        var bucket = new mongodb.GridFSBucket(dbase, { bucketName: 'audioTest' });
+    var bucket = new mongodb.GridFSBucket(dbase, { bucketName: 'audioTest' });
 
-        fs.createReadStream('../audio/avamax.mp3').
-            pipe(bucket.openUploadStream('avamax.mp3')).
-            on('error', function (error) {
-                assert.ifError(error);
-            }).
-            on('finish', function () {
-                console.log('done!');
-                process.exit(0);
-            });
-    });  
+    fs.createReadStream('../audio/avamax.mp3')
+      .pipe(bucket.openUploadStream('avamax.mp3'))
+      .on('error', function(error) {
+        assert.ifError(error);
+      })
+      .on('finish', function() {
+        console.log('done!');
+        process.exit(0);
+      });
+  }
+);
