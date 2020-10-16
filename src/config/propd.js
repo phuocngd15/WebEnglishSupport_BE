@@ -1,7 +1,7 @@
 export const config = {
-    secrets: {
-        jwt: 'learneverything'
-    },
-    dbUrl: 'mongodb://localhost:27017/api-design-test'
-    // change db url here
-}
+  secrets: {
+    jwt: 'learneverything'
+  },
+  dbUrl: 'mongodb://localhost:27017/api-design-test'
+  // change db url here
+};

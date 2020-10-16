@@ -26,11 +26,15 @@ export const getMany = model => async (req, res) => {
     res.status(200).json({ data: docs });
   } catch (e) {
     console.error(e);
-    res.status(400).end();
+    res
+      .status(400)
+      .json({ error: e }) // bug, nhớ remove line này
+      .end();
   }
 };
 
 export const createOne = model => async (req, res) => {
+  console.log(req.user._id);
   const createdBy = req.user._id;
   try {
     const doc = await model.create({ ...req.body, createdBy });
