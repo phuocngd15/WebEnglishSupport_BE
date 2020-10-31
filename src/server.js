@@ -6,6 +6,9 @@ import { signup, signin, protect } from './resources/share/auth';
 
 import cardRouter from './resources/cards/card.router';
 import userRouter from './resources/user/user.router';
+import examRouter from './resources/exam/exam.router';
+import cardSound from './resources/cardSound/cardSound.router';
+
 import { connect } from './resources/share/db';
 import config from './config';
 export const app = express();
@@ -21,13 +24,15 @@ app.use(
 );
 app.use(morgan('dev'));
 
-app.post('/signup', signup);
-app.post('/signin', signin);
+// app.post('/signup', signup);
+// app.post('/signin', signin);
 
-app.use('/api', protect);
+// app.use('/api', protect);
 
 app.use('/api/user', userRouter);
 app.use('/api/card', cardRouter);
+app.use('/api/exam', examRouter);
+app.use('/cardSound', cardSound);
 
 export const start = async () => {
   try {
