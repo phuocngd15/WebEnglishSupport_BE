@@ -50,7 +50,7 @@ export const postExam = async (req, res, next) => {
 
 export const getAllFiles = async (req, res) => {
   try {
-    const exams = await Exam.find({ state: true });
+    const exams = await Exam.find({ state: true }).select('-state');
     const sortedByCreattionDate = exams.sort(
       (a, b) => b.createdAt - a.createdAt
     );
@@ -63,7 +63,7 @@ export const getAllFiles = async (req, res) => {
 
 export const getOneExam = async (req, res) => {
   try {
-    const exam = await Exam.find({ _id: req.params.id, state: true });
+    const exam = await Exam.find({ _id: req.params.id, state: true }).select('-state');
 
     if (!exam) {
       res.status(404).send({ message: 'Invalid Document' });
