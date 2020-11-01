@@ -1,6 +1,7 @@
 import express from 'express';
 import { json, urlencoded } from 'body-parser';
 import morgan from 'morgan';
+import path from 'path';
 import cors from 'cors';
 import { signup, signin, protect } from './resources/share/auth';
 
@@ -17,6 +18,7 @@ app.disable('x-powered-by');
 
 app.use(cors());
 app.use(json());
+app.use(express.static(path.join(__dirname, '..', 'build')));
 app.use(
   urlencoded({
     extended: true
