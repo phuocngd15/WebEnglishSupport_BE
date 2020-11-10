@@ -21,6 +21,10 @@ const examSchema = new mongoose.Schema(
             required:true
 
         },
+        idAudio:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'audio'
+        },
         state:{
             type:Boolean,
             default:true

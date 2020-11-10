@@ -26,8 +26,8 @@ app.use(
 );
 app.use(morgan('dev'));
 
-// app.post('/signup', signup);
-// app.post('/signin', signin);
+app.post('/signup', signup);
+app.post('/signin', signin);
 
 // app.use('/api', protect);
 
