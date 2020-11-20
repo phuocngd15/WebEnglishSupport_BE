@@ -12,22 +12,20 @@ const examSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        file_path: {
-            type: String,
-            required: true
-        },
-        file_mimetype: {
-            type: String,
-            required:true
+        file: [{
+            file_path: {
+                type: String,
+                required: true
+            },
+            file_mimetype: {
+                type: String,
+                required: true
 
-        },
-        idAudio:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'audio'
-        },
-        state:{
-            type:Boolean,
-            default:true
+            },
+        }],
+        state: {
+            type: Boolean,
+            default: true
         }
     },
     { timestamps: true }
