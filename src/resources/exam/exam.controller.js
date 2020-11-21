@@ -1,8 +1,9 @@
 import { Exam } from './exam.model';
-import path from 'path';
 import e from 'express';
 
-
+// @route    POST api/exam/
+// @desc     post an exam
+// @access   public
 export const postExam = async (req, res, next) => {
   try {
     console.log(req.body);
@@ -30,6 +31,9 @@ export const postExam = async (req, res, next) => {
   }
 };
 
+// @route    GET api/exam/
+// @desc     Get all exam
+// @access   Private
 export const getAllFiles = async (req, res) => {
   try {
     const exams = await Exam.find({ state: true }).select('-state');
@@ -43,6 +47,9 @@ export const getAllFiles = async (req, res) => {
   }
 }
 
+// @route    GET api/exam/:id
+// @desc     Get an exam
+// @access   Private
 export const getOneExam = async (req, res) => {
   try {
     const exam = await Exam.find({ _id: req.params.id, state: true }).select('-state');
@@ -58,6 +65,9 @@ export const getOneExam = async (req, res) => {
   }
 }
 
+// @route    POST api/exam/:id
+// @desc     update current exam
+// @access   Private
 export const updateExam = async (req, res) => {
   try {
     const { title, type } = req.body;
@@ -79,6 +89,9 @@ export const updateExam = async (req, res) => {
   }
 }
 
+// @route    DELETE api/exam0/:id
+// @desc     Delete current exam
+// @access   Private
 export const deleteExam = async (req, res, next) => {
   try {
     let exam = await Exam.findById(req.params.id);
