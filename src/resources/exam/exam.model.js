@@ -12,17 +12,14 @@ const examSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        file: [{
-            file_path: {
-                type: String,
-                required: true
-            },
-            file_mimetype: {
-                type: String,
-                required: true
-
-            },
-        }],
+        pdf_path: {
+            type: String,
+            required:true
+        },
+        audio_path: {
+            type: String,
+            default:"Chưa cập nhật"
+        },
         state: {
             type: Boolean,
             default: true

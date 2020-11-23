@@ -4,9 +4,9 @@ import { upload } from '../share/uploadFile';
 
 const router = Router();
 
-router.post('/', upload.single('file'), postExam);
+router.post('/', postExam);
 router.get('/', getAllFiles);
 router.get('/:id', getOneExam);
-router.post('/:id', upload.single('file'), updateExam);
+router.post('/:id', updateExam);
 router.delete('/:id', deleteExam);
 export default router;

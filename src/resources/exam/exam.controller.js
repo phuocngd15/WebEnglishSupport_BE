@@ -6,21 +6,20 @@ import e from 'express';
 // @access   public
 export const postExam = async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.file);
-    const { title, type } = req.body;
+    // console.log(req.body);
+    // console.log(req.file);
+    const { title, type, pdf_path, audio_path } = req.body;
     const exam = await Exam.find({ title: title, state: true });
 
-    if (exam) {
+    if (exam.length>0) {
       res.status(404).send({ message: 'Đề thi đã tồn tại.' });
     }
     else {
-      const { path, mimetype } = req.file;
       const exam = new Exam({
         title,
         type,
-        file_path: path,
-        file_mimetype: mimetype
+        pdf_path,
+        audio_path,
       });
       await exam.save();
       res.status(200).json({ data: exam });
@@ -70,16 +69,14 @@ export const getOneExam = async (req, res) => {
 // @access   Private
 export const updateExam = async (req, res) => {
   try {
-    const { title, type } = req.body;
-    const { path, mimetype } = req.file;
+    const { title, type,  pdf_path, audio_path  } = req.body;
     let exam = await Exam.findById(req.params.id);
     if (!exam) {
       res.status(400).send({ message: 'Invalid document.' });
     } else {
       exam.title = title;
       exam.type = type;
-      exam.file_path = path;
-      exam.file_mimetype = mimetype;
+      exam.file_path = file_path;
       await exam.save();
       res.status(200).send({ message: "Updated." })
     }
@@ -89,7 +86,7 @@ export const updateExam = async (req, res) => {
   }
 }
 
-// @route    DELETE api/exam0/:id
+// @route    DELETE api/exam/:id
 // @desc     Delete current exam
 // @access   Private
 export const deleteExam = async (req, res, next) => {
