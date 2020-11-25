@@ -1,6 +1,5 @@
 import { Exam } from './exam.model';
-import e from 'express';
-
+import { fullExam } from '../fullexams/fullexam.model';
 // @route    POST api/exam/
 // @desc     post an exam
 // @access   public
@@ -11,7 +10,7 @@ export const postExam = async (req, res, next) => {
     const { title, type, pdf_path, audio_path } = req.body;
     const exam = await Exam.find({ title: title, state: true });
 
-    if (exam.length>0) {
+    if (exam.length > 0) {
       res.status(404).send({ message: 'Đề thi đã tồn tại.' });
     }
     else {
@@ -30,10 +29,46 @@ export const postExam = async (req, res, next) => {
   }
 };
 
+// @route    POST api/exam/
+// @desc     post an exam with fullexam
+// @access   public
+export const postExamWithFullFirst = async (req, res, next) => {
+  try {
+    // console.log(req.body);
+    // console.log(req.file);
+    const { title, type, pdf_path, audio_path } = req.body;
+    let exams = await Exam.find({ title: title, state: true });
+
+    if (exams.length > 0) {
+      res.status(404).send({ message: 'Đề thi đã tồn tại.' });
+    }
+    else {
+      exams = new Exam({
+        title,
+        type,
+        pdf_path,
+        audio_path,
+        full_exam_id: req.params.id
+      });
+      await exams.save();
+      // res.status(200).json({ data: exam });
+
+      const fullexam = await fullExam.findById({ _id: req.params.id })
+      fullexam.exam_id.push(exams);
+      await fullexam.save();
+      res.status(200).json({ data: fullexam });
+
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ message: 'Error.' }).end();
+  }
+};
+
 // @route    GET api/exam/
 // @desc     Get all exam
 // @access   Private
-export const getAllFiles = async (req, res) => {
+export const getAllExams = async (req, res) => {
   try {
     const exams = await Exam.find({ state: true }).select('-state');
     const sortedByCreattionDate = exams.sort(
@@ -41,7 +76,7 @@ export const getAllFiles = async (req, res) => {
     );
     res.status(200).send(sortedByCreattionDate);
   } catch (error) {
-    console.error(e);
+    console.error(error.message);
     res.status(400).end();
   }
 }
@@ -69,14 +104,15 @@ export const getOneExam = async (req, res) => {
 // @access   Private
 export const updateExam = async (req, res) => {
   try {
-    const { title, type,  pdf_path, audio_path  } = req.body;
+    const { title, type, pdf_path, audio_path } = req.body;
     let exam = await Exam.findById(req.params.id);
     if (!exam) {
       res.status(400).send({ message: 'Invalid document.' });
     } else {
       exam.title = title;
       exam.type = type;
-      exam.file_path = file_path;
+      exam.pdf_path = pdf_path;
+      exam.audio_path = audio_path;
       await exam.save();
       res.status(200).send({ message: "Updated." })
     }
@@ -104,3 +140,4 @@ export const deleteExam = async (req, res, next) => {
     res.status(400).send({ message: 'Error.' }).end();
   }
 }
+

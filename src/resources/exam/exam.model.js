@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const examSchema = new mongoose.Schema(
     {
@@ -14,12 +14,19 @@ const examSchema = new mongoose.Schema(
         },
         pdf_path: {
             type: String,
-            required:true
+            required: true
         },
         audio_path: {
             type: String,
-            default:"Chưa cập nhật"
+            default: "Chưa cập nhật"
         },
+        full_exam_id: {
+            type: Schema.Types.ObjectId,
+            ref: 'full-exam',
+        },
+        dapan: [{
+            
+        }],
         state: {
             type: Boolean,
             default: true

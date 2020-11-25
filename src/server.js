@@ -10,6 +10,7 @@ import userRouter from './resources/user/user.router';
 import examRouter from './resources/exam/exam.router';
 import cardSound from './resources/cardSound/cardSound.router';
 import profileRouter from './resources/profile/profile.router';
+import fullExamRouter from './resources/fullexams/fullexam.router';
 
 import { connect } from './resources/share/db';
 import config from './config';
@@ -35,6 +36,7 @@ app.post('/signin', signin);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/card', cardRouter);
 app.use('/api/v1/exam', examRouter);
+app.use('/api/v1/fullexam', fullExamRouter);
 app.use('/api/v1/user/profile',profileRouter);
 app.use('/cardSound', cardSound);
 
