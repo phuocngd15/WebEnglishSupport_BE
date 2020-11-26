@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { me, updateMe } from './user.controllers';
+import { oneUserByEmail, allUser, updateOneUser } from './user.controllers';
 
 const router = Router();
 
-router.get('/', me);
-router.put('/', updateMe);
+router.get('/all', allUser);
+router.get('/', oneUserByEmail);
+router.put('/', updateOneUser);
 
 export default router;
