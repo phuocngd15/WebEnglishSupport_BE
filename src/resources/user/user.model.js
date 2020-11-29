@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
+      default:'$2b$08$tdZuJccyx/.7Sg8y9E7Py.GG9cHTaCUvlDGnO2AtW7mYbvP/ReNJK',
       required: true
     },
 

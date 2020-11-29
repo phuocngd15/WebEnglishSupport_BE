@@ -54,7 +54,9 @@ const signin = async (req, res) => {
   const invalid = { message: 'Invalid email and passoword combination' };
 
   try {
-    const emaildecypted = decrypt(req.body.email);
+    // Truc code
+    // const emaildecypted = decrypt(req.body.email);
+
     const passdecypted = decrypt(req.body.password);
     console.log(emaildecypted);
     console.log(passdecypted);

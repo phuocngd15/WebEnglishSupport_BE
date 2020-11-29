@@ -31,8 +31,9 @@ app.use(morgan('dev'));
 app.post('/signup', signup);
 app.post('/signin', signin);
 
-// app.use('/api', protect);
 
+// app.use('/api', protect);
+// app.use('/api/v1/signin/', signin)
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/card', cardRouter);
 app.use('/api/v1/exam', examRouter);
@@ -44,7 +45,7 @@ export const start = async () => {
   try {
     await connect();
     app.listen(config.port, () => {
-      console.log(`REST API on http://localhost:${config.port}/api`);
+      console.log(`REST API on http://localhost:${config.port}/api/v1/`);
     });
   } catch (e) {
     console.error(e);

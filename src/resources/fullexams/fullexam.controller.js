@@ -8,6 +8,7 @@ import { fullExam } from './fullexam.model';
 export const postFullExam = async (req, res, next) => {
     try {
         const title = req.body.title;
+        const description = req.body.description;
         const fullexam = await fullExam.find({ title: title, state: true });
 
         if (fullexam.length > 0) {
@@ -15,7 +16,8 @@ export const postFullExam = async (req, res, next) => {
         }
         else {
             const fullexam = new fullExam({
-                title
+                title,
+                description,
             });
             await fullexam.save();
             res.status(200).json({ data: fullexam });
@@ -33,6 +35,7 @@ export const updateFullExamWithExam = async (req, res) => {
 
     const newFullExam = {};
     newFullExam.title = req.body.title;
+    newFullExam.description = req.body.description;
     if (typeof (req.body.exam_id) !== 'undefined') {
         newFullExam.exam_id = req.body.exam_id.split(',');
     }

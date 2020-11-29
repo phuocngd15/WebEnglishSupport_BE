@@ -13,6 +13,10 @@ const fullExamSchema = new mongoose.Schema(
             ref:'exam'
 
         }],
+        description:{
+            type:String,
+            default: "Chưa cập nhật",
+        },
         state: {
             type: Boolean,
             default: true
