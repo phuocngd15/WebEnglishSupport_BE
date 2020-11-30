@@ -71,10 +71,10 @@ export const postExamWithFullFirst = async (req, res, next) => {
 export const getAllExams = async (req, res) => {
   try {
     const exams = await Exam.find({ state: true }).select('-state');
-    const sortedByCreattionDate = exams.sort(
+    const sortedByCreatetionDate = exams.sort(
       (a, b) => b.createdAt - a.createdAt
     );
-    res.status(200).send(sortedByCreattionDate);
+    res.status(200).send(sortedByCreatetionDate);
   } catch (error) {
     console.error(error.message);
     res.status(400).end();

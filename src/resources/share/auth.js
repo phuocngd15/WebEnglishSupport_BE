@@ -50,12 +50,13 @@ const signin = async (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).send({ message: 'need email and password' });
   }
-
+  console.log(req.body);
   const invalid = { message: 'Invalid email and passoword combination' };
 
   try {
     // Truc code
     // const emaildecypted = decrypt(req.body.email);
+    const emaildecypted = req.body.email;
 
     const passdecypted = decrypt(req.body.password);
     console.log(emaildecypted);
