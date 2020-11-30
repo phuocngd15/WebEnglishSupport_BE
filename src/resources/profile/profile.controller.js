@@ -30,22 +30,20 @@ export const postProfile = async (req, res) => {
         } = req.body
         const id = req.params.id;
         const profileFields = {
-            // user: req.user.id,
+            user: req.user.id,
             user: user,
             gender: gender,
             phone: phone,
             level: level
         }
-        console.log(profileFields);
-        return res.json(1);
         // Using upsert option (creates new doc if no match is found):
-        // let profile = await Profile.findOneAndUpdate(
-        //     // { user: req.user.id },
-        //     { user: req.params.id },
-        //     { $set: profileFields },
-        //     { new: true, upsert: true, setDefaultsOnInsert: true }
-        // );
-        // return res.json(profile);
+        let profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { user: req.params.id },
+            { $set: profileFields },
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+        return res.json(profile);
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
