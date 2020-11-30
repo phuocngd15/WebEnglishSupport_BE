@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { oneUserByEmail, allUser, updateOneUser } from './user.controllers';
+import { Router } from 'express'
+import { oneUserByEmail, allUser, updateOneUser } from './user.controllers'
 
-const router = Router();
+const router = Router()
 
-router.get('/all', allUser);
-router.get('/', oneUserByEmail);
-router.put('/', updateOneUser);
+router.get('/all', allUser)
+router.get('/', oneUserByEmail)
+router.put('/', updateOneUser)
 
-export default router;
+export default router

@@ -1,6 +1,6 @@
-const express = require('express');
-const controller = require('./registerController');
-const router = express.Router();
+const express = require('express')
+const controller = require('./registerController')
+const router = express.Router()
 
 // api/register
 router
@@ -8,6 +8,6 @@ router
   .get('/', controller.getAllAccounts)
   .post('/register', controller.postAccount)
   .get('/:id', controller.getAccount)
-  .put('/update-account/:/id', controller.updateAccount);
+  .put('/update-account/:/id', controller.updateAccount)
 
-module.exports = router;
+module.exports = router

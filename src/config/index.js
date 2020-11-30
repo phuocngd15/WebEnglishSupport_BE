@@ -1,5 +1,5 @@
-import { merge } from 'lodash';
-const env = process.env.NODE_ENV || 'development';
+import { merge } from 'lodash'
+const env = process.env.NODE_ENV || 'development'
 // set up env
 const baseConfig = {
   env,
@@ -10,19 +10,19 @@ const baseConfig = {
     jwt: process.env.JWT_SECRET,
     jwtExp: '1d'
   }
-};
-let envConfig = {};
+}
+let envConfig = {}
 
 switch (env) {
   case 'dev':
   case 'development':
-    envConfig = require('./dev').config;
-    break;
+    envConfig = require('./dev').config
+    break
   case 'test':
   case 'testing':
-    envConfig = require('./test').config;
-    break;
+    envConfig = require('./test').config
+    break
   default:
-    envConfig = require('./dev').config;
+    envConfig = require('./dev').config
 }
-export default merge(baseConfig, envConfig);
+export default merge(baseConfig, envConfig)
