@@ -1,4 +1,4 @@
-import { crudControllers } from '../share/crud';
-import { Card } from './card.model';
+import { crudControllers } from '../share/crud'
+import { Card } from './card.model'
 
-export default crudControllers(Card);
+export default crudControllers(Card)

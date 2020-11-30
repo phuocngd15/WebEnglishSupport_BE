@@ -23,22 +23,55 @@ export const getOneProfile = async (req, res) => {
 // @desc     Create or update user profile
 // @access   Private
 export const postProfile = async (req, res) => {
+<<<<<<< HEAD
+    try {
+        const {
+            user,
+            gender,
+            phone,
+            level
+        } = req.body
+        const id = req.params.id;
+        const profileFields = {
+            user: req.user.id,
+            user: user,
+            gender: gender,
+            phone: phone,
+            level: level
+        }
+        // Using upsert option (creates new doc if no match is found):
+        let profile = await Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { user: req.params.id },
+            { $set: profileFields },
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+        return res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+=======
   try {
     const { user, gender, phone, level } = req.body
-    const id = req.user.id
+    const id = req.params.id
     const profileFields = {
-      user: req.user.id,
+      // user: req.user.id,
+      user: user,
       gender: gender,
       phone: phone,
       level: level
+>>>>>>> format code
     }
+    console.log(profileFields)
+    return res.json(1)
     // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-        { user: req.user.id },
-        { $set: profileFields },
-        { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    return res.json(profile);
+    // let profile = await Profile.findOneAndUpdate(
+    //     // { user: req.user.id },
+    //     { user: req.params.id },
+    //     { $set: profileFields },
+    //     { new: true, upsert: true, setDefaultsOnInsert: true }
+    // );
+    // return res.json(profile);
   } catch (err) {
     console.error(err.message)
     return res.status(500).send('Server Error')

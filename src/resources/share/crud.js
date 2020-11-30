@@ -3,47 +3,47 @@ export const getOne = model => async (req, res) => {
     const doc = await model
       .findOne({ createdBy: req.user._id, _id: req.params.id })
       .lean()
-      .exec();
+      .exec()
 
     if (!doc) {
-      return res.status(400).end();
+      return res.status(400).end()
     }
 
-    res.status(200).json({ data: doc });
+    res.status(200).json({ data: doc })
   } catch (e) {
-    console.error(e);
-    res.status(400).end();
+    console.error(e)
+    res.status(400).end()
   }
-};
+}
 
 export const getMany = model => async (req, res) => {
   try {
     const docs = await model
       .find({ createdBy: req.user._id })
       .lean()
-      .exec();
+      .exec()
 
-    res.status(200).json({ data: docs });
+    res.status(200).json({ data: docs })
   } catch (e) {
-    console.error(e);
+    console.error(e)
     res
       .status(400)
       .json({ error: e }) // bug, nhớ remove line này
-      .end();
+      .end()
   }
-};
+}
 
 export const createOne = model => async (req, res) => {
-  console.log(req.user._id);
-  const createdBy = req.user._id;
+  console.log(req.user._id)
+  const createdBy = req.user._id
   try {
-    const doc = await model.create({ ...req.body, createdBy });
-    res.status(201).json({ data: doc });
+    const doc = await model.create({ ...req.body, createdBy })
+    res.status(201).json({ data: doc })
   } catch (e) {
-    console.error(e);
-    res.status(400).end();
+    console.error(e)
+    res.status(400).end()
   }
-};
+}
 
 export const updateOne = model => async (req, res) => {
   try {
@@ -57,36 +57,36 @@ export const updateOne = model => async (req, res) => {
         { new: true }
       )
       .lean()
-      .exec();
+      .exec()
 
     if (!updatedDoc) {
-      return res.status(400).end();
+      return res.status(400).end()
     }
 
-    res.status(200).json({ data: updatedDoc });
+    res.status(200).json({ data: updatedDoc })
   } catch (e) {
-    console.error(e);
-    res.status(400).end();
+    console.error(e)
+    res.status(400).end()
   }
-};
+}
 
 export const removeOne = model => async (req, res) => {
   try {
     const removed = await model.findOneAndRemove({
       createdBy: req.user._id,
       _id: req.params.id
-    });
+    })
 
     if (!removed) {
-      return res.status(400).end();
+      return res.status(400).end()
     }
 
-    return res.status(200).json({ data: removed });
+    return res.status(200).json({ data: removed })
   } catch (e) {
-    console.error(e);
-    res.status(400).end();
+    console.error(e)
+    res.status(400).end()
   }
-};
+}
 
 export const crudControllers = model => ({
   removeOne: removeOne(model),
@@ -94,4 +94,4 @@ export const crudControllers = model => ({
   getMany: getMany(model),
   getOne: getOne(model),
   createOne: createOne(model)
-});
+})
