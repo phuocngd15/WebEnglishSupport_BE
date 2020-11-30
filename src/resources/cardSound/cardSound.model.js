@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const cardSoundSchema = new mongoose.Schema(
   {
@@ -10,8 +10,8 @@ const cardSoundSchema = new mongoose.Schema(
     }
   },
   { timestamps: true }
-)
+);
 
-cardSoundSchema.index({ name: 1 }, { unique: true })
+cardSoundSchema.index({ name: 1 }, { unique: true });
 
-export const Card = mongoose.model('cardSound', cardSoundSchema)
+export const Card = mongoose.model('cardSound', cardSoundSchema);

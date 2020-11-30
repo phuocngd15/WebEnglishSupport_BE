@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose'
+import mongoose, { Mongoose } from 'mongoose';
 
 const profileSchema = new mongoose.Schema(
   {
@@ -20,6 +20,6 @@ const profileSchema = new mongoose.Schema(
     }
   },
   { timestamps: true }
-)
+);
 
-export const Profile = mongoose.model('profile', profileSchema)
+export const Profile = mongoose.model('profile', profileSchema);

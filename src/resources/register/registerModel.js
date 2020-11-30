@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const account = new mongoose.Schema({
   name: String,
@@ -11,6 +11,6 @@ const account = new mongoose.Schema({
   levels: String,
   achievement: String,
   status: Boolean
-})
+});
 
-module.exports = mongoose.model('Account', account)
+module.exports = mongoose.model('Account', account);

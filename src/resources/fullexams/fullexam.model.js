@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from 'mongoose';
 
 const fullExamSchema = new mongoose.Schema(
   {
@@ -24,7 +24,7 @@ const fullExamSchema = new mongoose.Schema(
     }
   },
   { timestamps: true }
-)
+);
 
 // *    2. Options Object
 // *       ref: Model name for Child collection
@@ -37,4 +37,4 @@ const fullExamSchema = new mongoose.Schema(
 //     foreignField: 'fullexam',    // is equal to foreignField
 // })
 
-export const fullExam = mongoose.model('full-exam', fullExamSchema)
+export const fullExam = mongoose.model('full-exam', fullExamSchema);

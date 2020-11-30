@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const accountSchema = new mongoose.Schema(
   {
@@ -10,8 +10,8 @@ const accountSchema = new mongoose.Schema(
     }
   },
   { timestamps: true }
-)
+);
 
-accountSchema.index({ name: 1 }, { unique: true })
+accountSchema.index({ name: 1 }, { unique: true });
 
-export const Account = mongoose.model('Account', accountSchema)
+export const Account = mongoose.model('Account', accountSchema);

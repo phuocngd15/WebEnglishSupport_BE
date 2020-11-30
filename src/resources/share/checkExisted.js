@@ -1,6 +1,6 @@
 export const CheckExistedValue = async (object, value, model) => {
   if (!result) {
-    return true
+    return true;
   }
-  return false
-}
+  return false;
+};
