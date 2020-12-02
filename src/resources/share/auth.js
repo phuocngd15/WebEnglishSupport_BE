@@ -1,5 +1,6 @@
 import config from '../../config';
 import { User } from '../user/user.model';
+import {Profile} from '../profile/profile.model';
 import jwt from 'jsonwebtoken';
 import CryptoJS from 'crypto-js';
 const decrypt = value => {
@@ -32,14 +33,20 @@ const signup = async (req, res) => {
   try {
     console.log(req.body);
     const { fullname, email, password } = req.body;
+    const existedUser = await User.findOne({email:email})
+    if (existedUser) {
+      return res.status(400).send('Existed user');
+    }
     const newAccount = {
       fullname: decrypt(fullname),
       email: decrypt(email),
       password: decrypt(password)
     };
-    console.log(newAccount);
     const user = await User.create(newAccount);
     const token = newToken(user);
+    const newProfile ={user:user._id};
+    await Profile.create(newProfile);
+
     return res.status(201).send({ token });
   } catch (e) {
     return res.status(500).end();
@@ -99,6 +106,7 @@ const protect = async (req, res, next) => {
   try {
     payload = await verifyToken(token);
     console.log('token payload', payload);
+
   } catch (e) {
     console.log(e);
     return res.status(401).end();
@@ -112,8 +120,7 @@ const protect = async (req, res, next) => {
   if (!user) {
     return res.status(401).end();
   }
-
-  req.user = user;
   next();
 };
+
 export { newToken, verifyToken, signup, signin, protect, decrypt, encrypt };
