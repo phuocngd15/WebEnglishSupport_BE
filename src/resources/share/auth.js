@@ -62,10 +62,10 @@ const signin = async (req, res) => {
 
   try {
     // Truc code
-    // const emaildecypted = decrypt(req.body.email);
-    const emaildecypted = req.body.email;
+    const emaildecypted = decrypt(req.body.email);
+    // const emaildecypted = req.body.email;
 
-    const passdecypted = req.body.password;
+    const passdecypted = decrypt(req.body.password);
     console.log(emaildecypted);
     console.log(passdecypted);
     const user = await User.findOne({ email: emaildecypted })
