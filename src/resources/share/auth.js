@@ -1,15 +1,8 @@
 import config from '../../config';
 import { User } from '../user/user.model';
-import {Profile} from '../profile/profile.model';
+import { Profile } from '../profile/profile.model';
 import jwt from 'jsonwebtoken';
-import CryptoJS from 'crypto-js';
-const decrypt = value => {
-  const bytes = CryptoJS.AES.decrypt(value, 'SecretPassphrase'); // SecretPassphrase can handle by server
-  return bytes.toString(CryptoJS.enc.Utf8);
-};
-const encrypt = value => {
-  return CryptoJS.AES.encrypt(value, 'SecretPassphrase').toString();
-};
+import { encrypt, decrypt } from './func';
 
 const newToken = user => {
   return jwt.sign({ id: user.id }, config.secrets.jwt, {
@@ -33,7 +26,7 @@ const signup = async (req, res) => {
   try {
     console.log(req.body);
     const { fullname, email, password } = req.body;
-    const existedUser = await User.findOne({email:email})
+    const existedUser = await User.findOne({ email: email });
     if (existedUser) {
       return res.status(400).send('Existed user');
     }
@@ -44,7 +37,7 @@ const signup = async (req, res) => {
     };
     const user = await User.create(newAccount);
     const token = newToken(user);
-    const newProfile ={user:user._id};
+    const newProfile = { user: user._id };
     await Profile.create(newProfile);
 
     return res.status(201).send({ token });
@@ -54,34 +47,21 @@ const signup = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).send({ message: 'need email and password' });
-  }
-
-  const invalid = { message: 'Invalid email and passoword combination' };
-
   try {
-    // Truc code
-    const emaildecypted = decrypt(req.body.email);
-    // const emaildecypted = req.body.email;
-
-    const passdecypted = decrypt(req.body.password);
-    console.log(emaildecypted);
-    console.log(passdecypted);
-    const user = await User.findOne({ email: emaildecypted })
-      .select('email password rule')
-      .exec();
+    const { email, password } = req.body;
+    const emailDecrypt = decrypt(email);
+    const passDecrypt = decrypt(password);
+    const user = await User.findOne({ email: emailDecrypt }).exec();
 
     if (!user) {
-      return res.status(401).send(invalid);
+      return res.status(401).send('sai email');
     }
 
-    const match = await user.checkPassword(passdecypted);
+    const match = await user.checkPassword(passDecrypt);
 
     if (!match) {
-      return res.status(401).send(invalid);
+      return res.status(401).send('sai pass');
     }
-    console.log('user', user);
     const token = newToken(user);
     console.log('new token', token);
     return res
@@ -106,7 +86,6 @@ const protect = async (req, res, next) => {
   try {
     payload = await verifyToken(token);
     console.log('token payload', payload);
-
   } catch (e) {
     console.log(e);
     return res.status(401).end();

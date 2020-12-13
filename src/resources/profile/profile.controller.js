@@ -4,18 +4,13 @@ import { User } from '../user/user.model';
 // @desc     Get current users profile
 // @access   Private
 export const getOneProfile = async (req, res) => {
-
-  try { 
-
+  try {
     const profile = await Profile.findOne({
       user: req.user._id
     }).populate('user', ['fullname', 'email', 'password']);
-
     if (!profile) return res.status(400).json({ msg: 'Profile not found' });
-
     return res.json(profile);
   } catch (err) {
-    console.error(err.message);
     return res.status(500).json({ msg: 'Server error' });
   }
 };
@@ -40,7 +35,6 @@ export const postProfile = async (req, res) => {
     );
     return res.json(profile);
   } catch (err) {
-    console.error(err.message);
     return res.status(500).send('Server Error');
   }
 };
