@@ -75,13 +75,11 @@ const signin = async (req, res) => {
 
 const protect = async (req, res, next) => {
   const bearer = req.headers.authorization;
-  console.log(req.headers);
+
   if (!bearer || !bearer.startsWith('Bearer ')) {
     return res.status(401).end();
   }
-
   const token = bearer.split('Bearer ')[1].trim();
-  console.log('token', token);
   let payload;
   try {
     payload = await verifyToken(token);

@@ -33,3 +33,17 @@ export const updateOneUser = async (req, res) => {
     res.status(400).end();
   }
 };
+
+//Truc
+export const getUserByRule = async (req, res) => {
+  try {
+    const rule = req.body.rule;
+    const getUsers = await User.findOne({ rule: rule });
+    if (!getUsers) {
+      return res.status(404).send({ message: 'Invalid Document' });
+    }
+    return res.send(200).json(getUsers);
+  } catch (e) {
+    res.status(400).end();
+  }
+};

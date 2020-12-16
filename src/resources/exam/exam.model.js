@@ -24,6 +24,9 @@ const examSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'full-exam'
     },
+    duration: {
+      type: String
+    },
     dapan: [{}],
     state: {
       type: Boolean,

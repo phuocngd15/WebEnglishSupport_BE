@@ -7,7 +7,7 @@ export const postExam = async (req, res, next) => {
   try {
     // console.log(req.body);
     // console.log(req.file);
-    const { title, type, pdf_path, audio_path } = req.body;
+    const { title, type, duration, pdf_path, audio_path } = req.body;
     const exam = await Exam.find({ title: title, state: true });
 
     if (exam.length > 0) {
@@ -16,6 +16,7 @@ export const postExam = async (req, res, next) => {
       const exam = new Exam({
         title,
         type,
+        duration,
         pdf_path,
         audio_path
       });
@@ -38,7 +39,7 @@ export const postExamWithFullFirst = async (req, res, next) => {
   try {
     // console.log(req.body);
     // console.log(req.file);
-    const { title, type, pdf_path, audio_path } = req.body;
+    const { title, type, duration, pdf_path, audio_path } = req.body;
     let exams = await Exam.find({ title: title, state: true });
 
     if (exams.length > 0) {
@@ -47,6 +48,7 @@ export const postExamWithFullFirst = async (req, res, next) => {
       exams = new Exam({
         title,
         type,
+        duration,
         pdf_path,
         audio_path,
         full_exam_id: req.params.id
@@ -96,7 +98,7 @@ export const getOneExam = async (req, res) => {
     if (!exam) {
       res.status(404).send({ message: 'Invalid Document' });
     }
-    res.status(200).send({ data: exam });
+    res.status(200).json(exam);
   } catch (error) {
     console.error(error.message);
     res
@@ -111,13 +113,14 @@ export const getOneExam = async (req, res) => {
 // @access   Private
 export const updateExam = async (req, res) => {
   try {
-    const { title, type, pdf_path, audio_path } = req.body;
+    const { title, type, duration, pdf_path, audio_path } = req.body;
     let exam = await Exam.findById(req.params.id);
     if (!exam) {
       res.status(400).send({ message: 'Invalid document.' });
     } else {
       exam.title = title;
       exam.type = type;
+      exam.duration = duration;
       exam.pdf_path = pdf_path;
       exam.audio_path = audio_path;
       await exam.save();
