@@ -1,6 +1,6 @@
 import config from '../../config';
 import { User } from '../user/user.model';
-import {Profile} from '../profile/profile.model';
+import { Profile } from '../profile/profile.model';
 import jwt from 'jsonwebtoken';
 import CryptoJS from 'crypto-js';
 const decrypt = value => {
@@ -33,7 +33,7 @@ const signup = async (req, res) => {
   try {
     console.log(req.body);
     const { fullname, email, password } = req.body;
-    const existedUser = await User.findOne({email:email})
+    const existedUser = await User.findOne({ email: email });
     if (existedUser) {
       return res.status(400).send('Existed user');
     }
@@ -44,7 +44,7 @@ const signup = async (req, res) => {
     };
     const user = await User.create(newAccount);
     const token = newToken(user);
-    const newProfile ={user:user._id};
+    const newProfile = { user: user._id };
     await Profile.create(newProfile);
 
     return res.status(201).send({ token });
@@ -63,9 +63,11 @@ const signin = async (req, res) => {
   try {
     // Truc code
     const emaildecypted = decrypt(req.body.email);
-    // const emaildecypted = req.body.email;
-
     const passdecypted = decrypt(req.body.password);
+
+    // const emaildecypted = req.body.email;
+    // const passdecypted = req.body.password;
+
     console.log(emaildecypted);
     console.log(passdecypted);
     const user = await User.findOne({ email: emaildecypted })
@@ -95,18 +97,15 @@ const signin = async (req, res) => {
 
 const protect = async (req, res, next) => {
   const bearer = req.headers.authorization;
-  console.log(req.headers);
+
   if (!bearer || !bearer.startsWith('Bearer ')) {
     return res.status(401).end();
   }
-
   const token = bearer.split('Bearer ')[1].trim();
-  console.log('token', token);
   let payload;
   try {
     payload = await verifyToken(token);
     console.log('token payload', payload);
-
   } catch (e) {
     console.log(e);
     return res.status(401).end();

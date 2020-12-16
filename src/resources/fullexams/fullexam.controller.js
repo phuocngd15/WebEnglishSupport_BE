@@ -64,10 +64,10 @@ export const getAll = async (req, res) => {
     const sortedByCreattionDate = fullexam.sort(
       (a, b) => b.createdAt - a.createdAt
     );
-    res.status(200).send(sortedByCreattionDate);
+    return res.status(200).json(sortedByCreattionDate);
   } catch (error) {
     console.error(error.message);
-    res.status(400).end();
+    return res.status(400).end();
   }
 };
 
@@ -82,7 +82,7 @@ export const getOne = async (req, res) => {
     if (!fullexam) {
       res.status(404).send({ message: 'Invalid Document' });
     }
-    res.status(200).send({ data: fullexam });
+    res.status(200).json(fullexam);
   } catch (error) {
     console.error(error.message);
     res.status(400).end();
