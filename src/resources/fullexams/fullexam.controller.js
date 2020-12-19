@@ -1,7 +1,7 @@
 import { fullExam } from './fullexam.model';
 
 // @route    POST api/fullexams/
-// @desc     create fullexam
+// @desc     create fullexam // 2 m
 // @access   public
 
 export const postFullExam = async (req, res, next) => {
@@ -11,14 +11,14 @@ export const postFullExam = async (req, res, next) => {
     const fullexam = await fullExam.find({ title: title, state: true });
 
     if (fullexam.length > 0) {
-      res.status(404).send({ message: 'Đề thi đã tồn tại.' });
+      return res.status(404).send({ message: 'Đề thi đã tồn tại.' });
     } else {
       const fullexam = new fullExam({
         title,
         description
       });
       await fullexam.save();
-      res.status(200).json({ data: fullexam });
+      return res.status(200).json({ data: fullexam });
     }
   } catch (error) {
     console.log(error.message);
@@ -32,7 +32,7 @@ export const postFullExam = async (req, res, next) => {
 // @route    POST api/fullexam/:id
 // @desc     update exam_id
 // @access   public
-export const updateFullExamWithExam = async (req, res) => {
+/* export const updateFullExamWithExam = async (req, res) => {
   const newFullExam = {};
   newFullExam.title = req.body.title;
   newFullExam.description = req.body.description;
@@ -53,7 +53,7 @@ export const updateFullExamWithExam = async (req, res) => {
   });
 
   res.send(newFullExam);
-};
+}; */
 
 // @route    GET api/fullexam/
 // @desc     get all fullexam
@@ -78,7 +78,8 @@ export const getOne = async (req, res) => {
   try {
     const fullexam = await fullExam
       .findById({ _id: req.params.id, state: true })
-      .select('-state');
+      .select('-state').populate({path:'examRef',select:'title dapan'});
+
     if (!fullexam) {
       res.status(404).send({ message: 'Invalid Document' });
     }

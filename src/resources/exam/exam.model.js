@@ -20,14 +20,15 @@ const examSchema = new mongoose.Schema(
       type: String,
       default: 'Chưa cập nhật'
     },
-    full_exam_id: {
+    full_exam: {
       type: Schema.Types.ObjectId,
-      ref: 'full-exam'
+      ref: 'full-exam',
+      required:true
     },
     duration: {
       type: String
     },
-    dapan: [{}],
+    dapan: {type:Array},
     state: {
       type: Boolean,
       default: true

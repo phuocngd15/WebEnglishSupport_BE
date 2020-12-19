@@ -8,7 +8,7 @@ export const postExam = async (req, res, next) => {
     // console.log(req.body);
     // console.log(req.file);
     const { title, type, duration, pdf_path, audio_path } = req.body;
-    const exam = await Exam.find({ title: title, state: true });
+    const exam = await Exam.find({ title: title, type: type, state: true });
 
     if (exam.length > 0) {
       res.status(404).send({ message: 'Đề thi đã tồn tại.' });
@@ -35,12 +35,15 @@ export const postExam = async (req, res, next) => {
 // @route    POST api/exam/
 // @desc     post an exam with fullexam
 // @access   public
-export const postExamWithFullFirst = async (req, res, next) => {
+export const postExamWithFullFirst = async (req, res) => {
   try {
     // console.log(req.body);
     // console.log(req.file);
     const { title, type, duration, pdf_path, audio_path } = req.body;
-    let exams = await Exam.find({ title: title, state: true });
+    let exams = await Exam.find({ title: title, type: type, state: true });
+    let id = req.params.id
+
+
 
     if (exams.length > 0) {
       res.status(404).send({ message: 'Đề thi đã tồn tại.' });
@@ -51,15 +54,24 @@ export const postExamWithFullFirst = async (req, res, next) => {
         duration,
         pdf_path,
         audio_path,
-        full_exam_id: req.params.id
-      });
-      await exams.save();
-      // res.status(200).json({ data: exam });
+        full_exam: id,
+        dapan: null
 
-      const fullexam = await fullExam.findById({ _id: req.params.id });
-      fullexam.exam_id.push(exams);
-      await fullexam.save();
-      res.status(200).json({ data: fullexam });
+      });
+      
+      exams.dapan = [
+        { stt: 1, dapAn: 1 },
+        { stt: 2, dapAn: 2 }
+      ];
+
+      await exams.save();
+      res.status(200).json({ data: exams });
+      console.log(exams)
+
+      // const fullexam = await fullExam.findById({ _id: id });
+      // fullexam.exam_id.push(exams);
+      // await fullexam.save();
+      // res.status(200).json({ data: fullexam });
     }
   } catch (error) {
     console.log(error);
