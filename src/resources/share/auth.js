@@ -26,7 +26,7 @@ const signup = async (req, res) => {
   try {
     console.log(req.body);
     const { fullname, email, password } = req.body;
-    const existedUser = await User.findOne({ email: email });
+    const existedUser = await User.findOne({ email: decrypt(email) });
     if (existedUser) {
       return res.status(400).send('Existed user');
     }
