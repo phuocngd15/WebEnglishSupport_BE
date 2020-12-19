@@ -37,9 +37,9 @@ export const updateOneUser = async (req, res) => {
 };
 
 //Truc
-export const getUserByRule= async (req, res) => {
+export const getUserByRule = async (req, res) => {
   try {
-    const rule = req.params.rule
+    const rule = req.params.rule;
     const getUser = await User.find({ rule: rule });
     if (!getUser) {
       return res.status(404).send({ message: 'Invalid Document' });
@@ -52,7 +52,7 @@ export const getUserByRule= async (req, res) => {
 };
 export const getClient = async (req, res) => {
   try {
-    let rule = 4
+    let rule = 4;
     const getClient = await User.find({ rule: rule });
     if (!getClient) {
       return res.status(404).send({ message: 'Invalid Document' });
@@ -64,7 +64,7 @@ export const getClient = async (req, res) => {
 };
 export const postAdmin = async (req, res) => {
   try {
-    const { fullname, email, password, rule } = req.body
+    const { fullname, email, password, rule } = req.body;
 
     const existedUser = await User.findOne({ email: email, rule: rule });
 
@@ -87,16 +87,15 @@ export const postAdmin = async (req, res) => {
     console.log(e);
     res.status(400).end();
   }
-}
+};
 
 export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
     await User.findByIdAndDelete(id);
-    return res.status(200).send("OK");
-
+    return res.status(200).send('OK');
   } catch (e) {
     console.log(e);
     res.status(400).end();
   }
-}
+};
