@@ -49,9 +49,14 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    // Truc
     const emailDecrypt = decrypt(email);
     const passDecrypt = decrypt(password);
     const user = await User.findOne({ email: emailDecrypt }).exec();
+
+    // const emailDecrypt = (email);
+    // const passDecrypt = (password);
+    // const user = await User.findOne({ email: emailDecrypt }).exec();
 
     if (!user) {
       return res.status(401).send('sai email');

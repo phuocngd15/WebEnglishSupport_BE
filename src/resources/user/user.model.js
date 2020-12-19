@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema(
     fullname: {
       type: String,
       required: true,
-      unique: true,
       trim: true
     },
     email: {
@@ -18,32 +17,14 @@ const userSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      default: '$2b$08$tdZuJccyx/.7Sg8y9E7Py.GG9cHTaCUvlDGnO2AtW7mYbvP/ReNJK',
       required: true
     },
 
     rule: {
       type: String,
-      default: 'guest',
+      default: '4',
       trim: true
     }
-    /*  settings: {
-      theme: {
-        type: String,
-        required: true,
-        default: 'dark'
-      },
-      notifications: {
-        type: Boolean,
-        required: true,
-        default: true
-      },
-      compactMode: {
-        type: Boolean,
-        required: true,
-        default: false
-      }
-    } */
   },
   { timestamps: true }
 );
