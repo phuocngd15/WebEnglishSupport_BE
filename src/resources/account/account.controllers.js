@@ -1,30 +1,30 @@
-import { User } from './user.model';
+import { Account } from './account.model';
 import { decrypt } from '../share/func';
 import { Profile } from '../profile/profile.model';
 
-export const oneUserByEmail = async (req, res) => {
+export const oneAccountByEmail = async (req, res) => {
   try {
     const { email } = req.query;
-    const user = await User.find({ email }).exec();
-    res.status(200).json({ data: user });
+    const acc = await Account.find({ email }).exec();
+    res.status(200).json({ data: acc });
   } catch (e) {
     console.error(e);
     res.status(400).end();
   }
 };
-export const allUser = async (req, res) => {
+export const allAcc = async (req, res) => {
   try {
-    const user = await User.find({}).exec();
-    res.status(200).json({ data: user });
+    const accs = await Account.find({}).exec();
+    res.status(200).json({ data: accs });
   } catch (e) {
     console.error(e);
     res.status(400).end();
   }
 };
 
-export const updateOneUser = async (req, res) => {
+export const updateOneAcc = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+    const user = await Account.findByIdAndUpdate(req.user._id, req.body, {
       new: true
     })
       .lean()
@@ -35,12 +35,27 @@ export const updateOneUser = async (req, res) => {
     res.status(400).end();
   }
 };
-
+export const postPass = async (req, res) => {
+  /*   try {
+    const { value, email } = req.body;
+    const filter = { accountId: account._id };
+    const update = { fullname: value };
+    const profile = await Profile.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    return res.status(201).send('update name succsess');
+  } catch (err) {
+    return res.status(500).send('Server Error');
+  } */
+  return res.status(500).send('Server Error');
+};
 //Truc
 export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;
-    const getUser = await User.find({ rule: rule });
+    const getUser = await Account.find({ rule: rule });
     if (!getUser) {
       return res.status(404).send({ message: 'Invalid Document' });
     }
@@ -53,7 +68,7 @@ export const getUserByRule = async (req, res) => {
 export const getClient = async (req, res) => {
   try {
     let rule = 4;
-    const getClient = await User.find({ rule: rule });
+    const getClient = await Account.find({ rule: rule });
     if (!getClient) {
       return res.status(404).send({ message: 'Invalid Document' });
     }
@@ -66,7 +81,7 @@ export const postAdmin = async (req, res) => {
   try {
     const { fullname, email, password, rule } = req.body;
 
-    const existedUser = await User.findOne({ email: email, rule: rule });
+    const existedUser = await Account.findOne({ email: email, rule: rule });
 
     if (existedUser) {
       return res.status(404).send('Existed user');
@@ -78,7 +93,7 @@ export const postAdmin = async (req, res) => {
       rule: decrypt(rule)
     };
 
-    const user = await User.create(newAccount);
+    const user = await Account.create(newAccount);
     const newProfile = { user: user._id };
     await Profile.create(newProfile);
 
@@ -92,7 +107,7 @@ export const postAdmin = async (req, res) => {
 export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
-    await User.findByIdAndDelete(id);
+    await Account.findByIdAndDelete(id);
     return res.status(200).send('OK');
   } catch (e) {
     console.log(e);

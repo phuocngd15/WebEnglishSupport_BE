@@ -2,17 +2,23 @@ import mongoose, { Mongoose } from 'mongoose';
 
 const profileSchema = new mongoose.Schema(
   {
-    user: {
+    accountId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'account',
+      required: true
+    },
+    fullname: {
+      type: String,
+      required: true,
+      trim: true
     },
     gender: {
       type: String,
-      default: 'Bạn chưa cập nhật.'
+      default: ''
     },
     phone: {
       type: String,
-      default: 'Bạn chưa cập nhật.'
+      default: ''
     },
     level: {
       type: String,

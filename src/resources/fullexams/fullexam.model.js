@@ -27,9 +27,9 @@ const fullExamSchema = new mongoose.Schema(
 fullExamSchema.set('toObject', { virtuals: true });
 fullExamSchema.set('toJSON', { virtuals: true });
 fullExamSchema.virtual('examRef', {
-    ref: 'exam', // model to use
-    localField: '_id',   // find in model, where localField
-    foreignField: 'full_exam',    // is equal to foreignField
-})
+  ref: 'exam', // model to use
+  localField: '_id', // find in model, where localField
+  foreignField: 'full_exam' // is equal to foreignField
+});
 
 export const fullExam = mongoose.model('full-exam', fullExamSchema);

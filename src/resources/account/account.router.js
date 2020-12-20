@@ -1,16 +1,21 @@
 import { Router } from 'express';
-import controllers from './account.controller';
+import {
+  oneAccountByEmail,
+  allAcc,
+  updateOneAcc,
+  getUserByRule,
+  getClient,
+  postAdmin,
+  deleteAdmin
+} from './account.controllers';
+
 const router = Router();
 
-// /api/card
-
-router.route('/').get(controllers.getMany);
-
-router
-  .route('/:id')
-  .get(controllers.getOne)
-  .put(controllers.updateOne)
-  .post(controllers.createOne)
-  .delete(controllers.removeOne);
-
+router.get('/all', allAcc);
+router.get('/', oneAccountByEmail);
+router.put('/', updateOneAcc);
+router.get('/:rule', getUserByRule);
+router.get('/clients', getClient);
+router.post('/createAdmin', postAdmin);
+router.delete('/deleteAdmin/:id', deleteAdmin);
 export default router;

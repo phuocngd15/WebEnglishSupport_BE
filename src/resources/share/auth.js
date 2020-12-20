@@ -1,11 +1,11 @@
 import config from '../../config';
-import { User } from '../user/user.model';
+import { Account } from '../account/account.model';
 import { Profile } from '../profile/profile.model';
 import jwt from 'jsonwebtoken';
 import { encrypt, decrypt } from './func';
 
-const newToken = user => {
-  return jwt.sign({ id: user.id }, config.secrets.jwt, {
+const newToken = account => {
+  return jwt.sign({ id: account.id }, config.secrets.jwt, {
     expiresIn: config.secrets.jwtExp
   });
 };
@@ -26,18 +26,17 @@ const signup = async (req, res) => {
   try {
     console.log(req.body);
     const { fullname, email, password } = req.body;
-    const existedUser = await User.findOne({ email: decrypt(email) });
-    if (existedUser) {
+    const existedAccount = await Account.findOne({ email: decrypt(email) });
+    if (existedAccount) {
       return res.status(400).send('Existed user');
     }
     const newAccount = {
-      fullname: decrypt(fullname),
       email: decrypt(email),
       password: decrypt(password)
     };
-    const user = await User.create(newAccount);
-    const token = newToken(user);
-    const newProfile = { user: user._id };
+    const account = await Account.create(newAccount);
+    const token = newToken(account);
+    const newProfile = { accountId: account._id, fullname: decrypt(fullname) };
     await Profile.create(newProfile);
 
     return res.status(201).send({ token });
@@ -50,28 +49,28 @@ const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Truc
-    // const emailDecrypt = decrypt(email);
-    // const passDecrypt = decrypt(password);
-    // const user = await User.findOne({ email: emailDecrypt }).exec();
-
-    const emailDecrypt = (email);
+    const emailDecrypt = decrypt(email);
+    const passDecrypt = decrypt(password);
+    const account = await Account.findOne({ email: emailDecrypt }).exec();
+    console.log('account', account);
+    /* const emailDecrypt = (email);
     const passDecrypt = (password);
-    const user = await User.findOne({ email: emailDecrypt }).exec();
+    const user = await User.findOne({ email: emailDecrypt }).exec(); */
 
-    if (!user) {
+    if (!account) {
       return res.status(401).send('sai email');
     }
 
-    const match = await user.checkPassword(passDecrypt);
+    const match = await account.checkPassword(passDecrypt);
 
     if (!match) {
       return res.status(401).send('sai pass');
     }
-    const token = newToken(user);
+    const token = newToken(account);
     console.log('new token', token);
     return res
       .status(201)
-      .send([token, encrypt(user.email), encrypt(user.rule)]);
+      .send([token, encrypt(account.email), encrypt(account.rule)]);
   } catch (e) {
     console.error(e);
     res.status(500).end();
@@ -94,7 +93,7 @@ const protect = async (req, res, next) => {
     return res.status(401).end();
   }
 
-  const user = await User.findById(payload.id)
+  const user = await Account.findById(payload.id)
     .select('-password')
     .lean()
     .exec();

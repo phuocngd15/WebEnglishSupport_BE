@@ -6,7 +6,7 @@ import cors from 'cors';
 import { signup, signin, protect } from './resources/share/auth';
 
 import cardRouter from './resources/cards/card.router';
-import userRouter from './resources/user/user.router';
+import accountRouter from './resources/account/account.router';
 import examRouter from './resources/exam/exam.router';
 import cardSound from './resources/cardSound/cardSound.router';
 import profileRouter from './resources/profile/profile.router';
@@ -32,7 +32,7 @@ app.post('/signup', signup);
 app.post('/signin', signin);
 // app.use('/api', protect);
 
-app.use('/api/user', userRouter);
+app.use('/api/account', accountRouter);
 app.use('/api/card', cardRouter);
 app.use('/api/exam', examRouter);
 app.use('/api/fullexam', fullExamRouter);

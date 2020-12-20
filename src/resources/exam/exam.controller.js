@@ -41,9 +41,7 @@ export const postExamWithFullFirst = async (req, res) => {
     // console.log(req.file);
     const { title, type, duration, pdf_path, audio_path } = req.body;
     let exams = await Exam.find({ title: title, type: type, state: true });
-    let id = req.params.id
-
-
+    let id = req.params.id;
 
     if (exams.length > 0) {
       res.status(404).send({ message: 'Đề thi đã tồn tại.' });
@@ -56,9 +54,8 @@ export const postExamWithFullFirst = async (req, res) => {
         audio_path,
         full_exam: id,
         dapan: null
-
       });
-      
+
       exams.dapan = [
         { stt: 1, dapAn: 1 },
         { stt: 2, dapAn: 2 }
@@ -66,7 +63,7 @@ export const postExamWithFullFirst = async (req, res) => {
 
       await exams.save();
       res.status(200).json({ data: exams });
-      console.log(exams)
+      console.log(exams);
 
       // const fullexam = await fullExam.findById({ _id: id });
       // fullexam.exam_id.push(exams);

@@ -78,7 +78,8 @@ export const getOne = async (req, res) => {
   try {
     const fullexam = await fullExam
       .findById({ _id: req.params.id, state: true })
-      .select('-state').populate({path:'examRef',select:'title dapan'});
+      .select('-state')
+      .populate({ path: 'examRef', select: 'title dapan' });
 
     if (!fullexam) {
       res.status(404).send({ message: 'Invalid Document' });

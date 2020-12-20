@@ -1,17 +1,22 @@
 import { Profile } from './profile.model';
-import { User } from '../user/user.model';
+import { Account } from '../account/account.model';
 // @route    GET api/profile/
 // @desc     Get current users profile
 // @access   Private
 export const getOneProfile = async (req, res) => {
   try {
+    const { account } = req.body;
+
     const profile = await Profile.findOne({
-      user: req.user._id
-    }).populate('user', ['fullname', 'email', 'password']);
-    if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+      accountId: account._id
+    })
+      .select('-password')
+      .exec();
+
+    if (!profile) return res.status(400).json({ message: 'Profile not found' });
     return res.json(profile);
   } catch (err) {
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
@@ -19,81 +24,71 @@ export const getOneProfile = async (req, res) => {
 // @desc     Create or update user profile
 // @access   Private
 export const postPhone = async (req, res) => {
-  console.log('post profile', req.body);
   try {
-    const { gender, phone } = req.body;
-    const profileFields = {
-      user: req.user._id,
-      gender: gender,
-      phone: phone
-    };
-    // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $set: profileFields },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    return res.json(profile);
+    const { value, account } = req.body;
+    const filter = { accountId: account._id };
+    const update = { phone: value };
+    const profile = await Profile.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    return res.status(201).json({ message: 'update phone succsess' });
   } catch (err) {
     return res.status(500).send('Server Error');
   }
 };
 export const postName = async (req, res) => {
-  console.log('body postName', req.body);
   try {
-    const { gender, phone } = req.body;
-    const profileFields = {
-      user: req.user._id,
-      gender: gender,
-      phone: phone
-    };
-    // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $set: profileFields },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    return res.json(profile);
+    const { value, account } = req.body;
+    const filter = { accountId: account._id };
+    const update = { fullname: value };
+    const profile = await Profile.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    return res.status(201).json({ message: 'update name succsess' });
+  } catch (err) {
+    return res.status(500).send('Server Error');
+  }
+};
+export const getName = async (req, res) => {
+  try {
+    const { account } = req.body;
+    const filter = { accountId: account._id };
+    const profile = await (await Profile.findOne(filter)).exec();
+    return res.status(201).json(profile);
   } catch (err) {
     return res.status(500).send('Server Error');
   }
 };
 export const postGender = async (req, res) => {
-  console.log('post profile', req.body);
   try {
-    const { gender, phone } = req.body;
-    const profileFields = {
-      user: req.user._id,
-      gender: gender,
-      phone: phone
-    };
-    // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $set: profileFields },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    return res.json(profile);
+    const { value, account } = req.body;
+    const filter = { accountId: account._id };
+    const update = { gender: value };
+    const profile = await Profile.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    return res.status(201).json({ message: 'update gender succsess' });
   } catch (err) {
     return res.status(500).send('Server Error');
   }
 };
 export const postPass = async (req, res) => {
-  console.log('post profile', req.body);
   try {
-    const { value } = req.body;
-    const profileFields = {
-      user: req.user._id,
-      gender: gender,
-      phone: phone
-    };
-    // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $set: profileFields },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    );
-    return res.json(profile);
+    const { value, account } = req.body;
+    const filter = { accountId: account._id };
+    const update = { pass: value };
+    const profile = await Profile.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    return res.status(201).json({ message: 'update pass succsess' });
   } catch (err) {
     return res.status(500).send('Server Error');
   }
