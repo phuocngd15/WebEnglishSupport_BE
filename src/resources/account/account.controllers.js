@@ -79,7 +79,7 @@ export const getClient = async (req, res) => {
 };
 export const postAdmin = async (req, res) => {
   try {
-    const { fullname, email, password, rule } = req.body;
+    const {email, password, rule } = req.body;
 
     const existedUser = await Account.findOne({ email: email, rule: rule });
 
@@ -87,7 +87,6 @@ export const postAdmin = async (req, res) => {
       return res.status(404).send('Existed user');
     }
     const newAccount = {
-      fullname: decrypt(fullname),
       email: decrypt(email),
       password: decrypt(password),
       rule: decrypt(rule)

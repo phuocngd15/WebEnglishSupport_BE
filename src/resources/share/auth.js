@@ -25,7 +25,7 @@ const signup = async (req, res) => {
 
   try {
     console.log(req.body);
-    const { fullname, email, password } = req.body;
+    let { email, password } = req.body;
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
       return res.status(400).send('Existed user');
@@ -36,11 +36,16 @@ const signup = async (req, res) => {
     };
     const account = await Account.create(newAccount);
     const token = newToken(account);
-    const newProfile = { accountId: account._id, fullname: decrypt(fullname) };
+    email = decrypt(email)
+
+    let fullname = email.substring(0, email.lastIndexOf("@"));
+    const newProfile = { accountId: account._id, fullname: fullname };
     await Profile.create(newProfile);
 
     return res.status(201).send({ token });
   } catch (e) {
+    console.log(e);
+
     return res.status(500).end();
   }
 };
