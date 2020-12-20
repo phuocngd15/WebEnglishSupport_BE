@@ -19,16 +19,15 @@ const verifyToken = token =>
   });
 
 const signup = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
-    return res.status(400).send({ message: 'need email and password' });
-  }
-
   try {
-    console.log(req.body);
-    let { email, password } = req.body;
+    const { email, password, fullname } = req.body;
+    if (!email || !password) {
+      return res.status(201).send({ message: 'need email and password' });
+    }
+
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
-      return res.status(400).send('Existed user');
+      return res.status(201).send('Existed user');
     }
     const newAccount = {
       email: decrypt(email),
@@ -36,16 +35,14 @@ const signup = async (req, res) => {
     };
     const account = await Account.create(newAccount);
     const token = newToken(account);
-    email = decrypt(email)
 
-    let fullname = email.substring(0, email.lastIndexOf("@"));
     const newProfile = { accountId: account._id, fullname: fullname };
     await Profile.create(newProfile);
 
-    return res.status(201).send({ token });
+    return res
+      .status(201)
+      .send([token, encrypt(account.email), encrypt(account.rule)]);
   } catch (e) {
-    console.log(e);
-
     return res.status(500).end();
   }
 };
@@ -53,31 +50,24 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Truc
     const emailDecrypt = decrypt(email);
     const passDecrypt = decrypt(password);
     const account = await Account.findOne({ email: emailDecrypt }).exec();
-    console.log('account', account);
-    /* const emailDecrypt = (email);
-    const passDecrypt = (password);
-    const user = await User.findOne({ email: emailDecrypt }).exec(); */
 
     if (!account) {
-      return res.status(401).send('sai email');
+      return res.status(203).send({ message: 'email/pass wrong' });
     }
 
     const match = await account.checkPassword(passDecrypt);
 
     if (!match) {
-      return res.status(401).send('sai pass');
+      return res.status(203).send({ message: 'email/pass wrong' });
     }
     const token = newToken(account);
-    console.log('new token', token);
     return res
       .status(201)
       .send([token, encrypt(account.email), encrypt(account.rule)]);
   } catch (e) {
-    console.error(e);
     res.status(500).end();
   }
 };
@@ -92,9 +82,7 @@ const protect = async (req, res, next) => {
   let payload;
   try {
     payload = await verifyToken(token);
-    console.log('token payload', payload);
   } catch (e) {
-    console.log(e);
     return res.status(401).end();
   }
 
