@@ -22,12 +22,12 @@ const signup = async (req, res) => {
   try {
     const { email, password, fullname } = req.body;
     if (!email || !password) {
-      return res.status(201).send({ message: 'need email and password' });
+      return res.status(203).send({ infoMessage: 'Need email and password' });
     }
 
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
-      return res.status(201).send('Existed user');
+      return res.status(203).send({ infoMessage: 'Existed account' });
     }
     const newAccount = {
       fullname: decrypt(fullname),
