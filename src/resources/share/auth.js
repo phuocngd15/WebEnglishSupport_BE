@@ -56,13 +56,13 @@ const signin = async (req, res) => {
     const account = await Account.findOne({ email: emailDecrypt }).exec();
 
     if (!account) {
-      return res.status(203).send({ message: 'email/pass wrong' });
+      return res.status(203).send({ infoMessage: 'email/pass wrong' });
     }
 
     const match = await account.checkPassword(passDecrypt);
 
     if (!match) {
-      return res.status(203).send({ message: 'email/pass wrong' });
+      return res.status(203).send({ infoMessage: 'email/pass wrong' });
     }
     const token = newToken(account);
     return res
