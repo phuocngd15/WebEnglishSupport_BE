@@ -6,6 +6,7 @@ import cors from 'cors';
 import { signup, signin, protect } from './resources/share/auth';
 
 import cardRouter from './resources/cards/card.router';
+import uploadFileRouter from './resources/uploadExam/fileExam.router';
 import accountRouter from './resources/account/account.router';
 import examRouter from './resources/exam/exam.router';
 import cardSound from './resources/cardSound/cardSound.router';
@@ -38,6 +39,7 @@ app.use('/api/exam', examRouter);
 app.use('/api/fullexam', fullExamRouter);
 app.use('/api/profile', profileRouter);
 app.use('/cardSound', cardSound);
+app.use('/api/uploadFile', uploadFileRouter);
 
 export const start = async () => {
   try {
