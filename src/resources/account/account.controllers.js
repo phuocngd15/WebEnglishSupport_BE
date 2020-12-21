@@ -56,9 +56,6 @@ export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;
     const getUser = await Account.find({ rule: rule });
-    if (!getUser) {
-      return res.status(404).send({ message: 'Invalid Document' });
-    }
     return res.status(200).json(getUser);
   } catch (e) {
     console.log(e);
@@ -79,24 +76,23 @@ export const getClient = async (req, res) => {
 };
 export const postAdmin = async (req, res) => {
   try {
-    const {email, password, rule } = req.body;
-
+    const { fullname, email, password, rule } = req.body;
     const existedUser = await Account.findOne({ email: email, rule: rule });
-
     if (existedUser) {
       return res.status(404).send('Existed user');
     }
     const newAccount = {
+      fullname: decrypt(fullname),
       email: decrypt(email),
       password: decrypt(password),
       rule: decrypt(rule)
     };
 
-    const user = await Account.create(newAccount);
-    const newProfile = { user: user._id };
+    const account = await Account.create(newAccount);
+    const newProfile = { accountId: account._id, fullname: decrypt(fullname) };
     await Profile.create(newProfile);
 
-    return res.status(200).json(user);
+    return res.status(200).json(account);
   } catch (e) {
     console.log(e);
     res.status(400).end();
@@ -107,6 +103,7 @@ export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
     await Account.findByIdAndDelete(id);
+    const profile = await Profile.findOne({ accountId:id})
     return res.status(200).send('OK');
   } catch (e) {
     console.log(e);

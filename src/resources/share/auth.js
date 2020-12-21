@@ -19,27 +19,26 @@ const verifyToken = token =>
   });
 
 const signup = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.fullname||!req.body.email || !req.body.password) {
     return res.status(400).send({ message: 'need email and password' });
   }
 
   try {
     console.log(req.body);
-    let { email, password } = req.body;
+    let { fullname, email, password } = req.body;
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
       return res.status(400).send('Existed user');
     }
     const newAccount = {
+      fullname: decrypt(fullname),
       email: decrypt(email),
       password: decrypt(password)
     };
     const account = await Account.create(newAccount);
     const token = newToken(account);
-    email = decrypt(email)
-
-    let fullname = email.substring(0, email.lastIndexOf("@"));
-    const newProfile = { accountId: account._id, fullname: fullname };
+    // let fullname = email.substring(0, email.lastIndexOf("@"));
+    const newProfile = { accountId: account._id, fullname: decrypt(fullname)};
     await Profile.create(newProfile);
 
     return res.status(201).send({ token });
@@ -63,13 +62,17 @@ const signin = async (req, res) => {
     const user = await User.findOne({ email: emailDecrypt }).exec(); */
 
     if (!account) {
-      return res.status(401).send('sai email');
+      return res.status(400)
+        .json({ errors: [{ msg: 'Vui lòng nhập lại thông tin.' }] });
+
     }
 
     const match = await account.checkPassword(passDecrypt);
 
     if (!match) {
-      return res.status(401).send('sai pass');
+      return res.status(400)
+        .json({ errors: [{ msg: 'Vui lòng nhập lại thông tin.' }] });
+
     }
     const token = newToken(account);
     console.log('new token', token);

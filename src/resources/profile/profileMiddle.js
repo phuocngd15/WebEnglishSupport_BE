@@ -1,7 +1,7 @@
 import { decrypt } from '../share/func';
 import { Account } from './profile.model';
 
-export default async function(req, res, next) {
+export default async function (req, res, next) {
   console.log('middle profile', req.body);
   console.log('middle profile', req.body);
   const { email } = req.body;
