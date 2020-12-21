@@ -5,7 +5,7 @@ import {
   getOneExam,
   updateExam,
   deleteExam
-} from './exam.controller';
+} from './singleSkill.controller';
 // import { upload } from '../share/uploadFile';
 
 const router = Router();

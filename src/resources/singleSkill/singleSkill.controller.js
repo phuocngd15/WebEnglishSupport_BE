@@ -1,4 +1,4 @@
-import { Exam } from './exam.model';
+import { Exam } from './singleSkill.model';
 import { fullExam } from '../fullexams/fullexam.model';
 // @route    POST api/exam/
 // @desc     post an exam
@@ -35,7 +35,7 @@ export const postExam = async (req, res, next) => {
 // @route    POST api/exam/
 // @desc     post an exam with fullexam
 // @access   public
-export const postExamWithFullFirst = async (req, res) => {
+export const postSingleSkill = async (req, res) => {
   try {
     // console.log(req.body);
     // console.log(req.file);

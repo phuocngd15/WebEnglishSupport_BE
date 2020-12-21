@@ -8,7 +8,7 @@ import { signup, signin, protect } from './resources/share/auth';
 import cardRouter from './resources/cards/card.router';
 import uploadFileRouter from './resources/uploadExam/fileExam.router';
 import accountRouter from './resources/account/account.router';
-import examRouter from './resources/exam/exam.router';
+import examRouter from './resources/singleSkill/singleSkill.router';
 import cardSound from './resources/cardSound/cardSound.router';
 import profileRouter from './resources/profile/profile.router';
 import fullExamRouter from './resources/fullexams/fullexam.router';
