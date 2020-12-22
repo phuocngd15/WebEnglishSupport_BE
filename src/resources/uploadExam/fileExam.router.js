@@ -25,7 +25,7 @@ router.get('/getAllFiles', async (req, clientRes) => {
           if (files.length) {
             console.log('Files:');
             files.map(file => {
-              console.log(`${file.name} (${file.id})`);
+              console.log(`${file.name} (${file.id}) (${file.webContentLink})`);
             });
           } else {
             console.log('No files found.');
@@ -49,5 +49,45 @@ router.get('/getAllFiles', async (req, clientRes) => {
       .send('Error while getting list of files. Try again later.');
   }
 });
+router.get('/getOne', async (req, clientRes) => {
+  try {
+    console.log(req.query);
+    const { id } = req.query;
+    console.log('test get all file');
+    const download = async auth => {
+      const drive = google.drive({ version: 'v3', auth });
 
+      // var fileId = '1TuI1WgsC9XmWj4PBSSXVoohdSg1bT3i4'; // img
+      var fileId = '17R-pfSN8PNx8c185efLN-QXEdQL8rtdm'; // pdf
+      var dest = fs.createWriteStream(`./aaa.pdf`);
+      // var dest;
+      drive.files.get(
+        { fileId: fileId, alt: 'media' },
+        { responseType: 'stream' },
+        (error, ggRes) => {
+          ggRes.data
+            .on('end', () => {
+              console.log('Done');
+            })
+            .on('error', () => {
+              console.log('Error', error);
+            })
+            .pipe(dest);
+        }
+      );
+    };
+
+    fs.readFile(
+      './src/resources/uploadExam/ggdrive/credentials.json',
+      (err, content) => {
+        if (err) return console.log('Error loading client secret file:', err);
+        ggAuthorize(JSON.parse(content), download);
+      }
+    );
+  } catch (error) {
+    clientRes
+      .status(400)
+      .send('Error while getting list of files. Try again later.');
+  }
+});
 export default router;
