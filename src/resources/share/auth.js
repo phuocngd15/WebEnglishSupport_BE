@@ -53,6 +53,7 @@ const signin = async (req, res) => {
     const { email, password } = req.body;
     const emailDecrypt = decrypt(email);
     const passDecrypt = decrypt(password);
+
     const account = await Account.findOne({ email: emailDecrypt }).exec();
 
     if (!account) {
@@ -60,7 +61,6 @@ const signin = async (req, res) => {
     }
 
     const match = await account.checkPassword(passDecrypt);
-
     if (!match) {
       return res.status(203).send({ infoMessage: 'email/pass wrong' });
     }
