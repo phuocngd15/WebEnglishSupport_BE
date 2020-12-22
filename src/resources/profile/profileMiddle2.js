@@ -1,5 +1,5 @@
 import { decrypt } from '../share/func';
-import { Account } from './profile.model';
+import { Account } from '../account/account.model';
 
 export default async function(req, res, next) {
   console.log('middle profile', req.query);

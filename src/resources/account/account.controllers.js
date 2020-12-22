@@ -51,7 +51,7 @@ export const postPass = async (req, res) => {
   } */
   return res.status(500).send('Server Error');
 };
-//Truc
+// Truc
 export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;
@@ -103,7 +103,25 @@ export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
     await Account.findByIdAndDelete(id);
-    const profile = await Profile.findOne({ accountId:id})
+    await Profile.findOne({ accountId: id });
+    return res.status(200).send({
+      infoMessage: 'Xóa thành công',
+      isContinue: true,
+      type: 'success'
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).end();
+  }
+};
+export const recoverPass = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const account = await Account.findByIdAndDelete({ email: decrypt(email) });
+    if (!account)
+      return res
+        .status(200)
+        .send({ infoMessage: 'email không tồn tại', type: 'error' });
     return res.status(200).send('OK');
   } catch (e) {
     console.log(e);

@@ -6,7 +6,8 @@ import {
   getUserByRule,
   getClient,
   postAdmin,
-  deleteAdmin
+  deleteAdmin,
+  recoverPass
 } from './account.controllers';
 
 const router = Router();
@@ -16,6 +17,7 @@ router.get('/', oneAccountByEmail);
 router.put('/', updateOneAcc);
 router.get('/:rule', getUserByRule);
 router.get('/clients', getClient);
+router.get('/recover', recoverPass);
 router.post('/createAdmin', postAdmin);
 router.delete('/deleteAdmin/:id', deleteAdmin);
 export default router;
