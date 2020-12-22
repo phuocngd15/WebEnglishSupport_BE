@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { google } from 'googleapis';
 import fs from 'fs';
 import { ggAuthorize } from './ggdrive/config';
-const CREDENTIAL = './ggdrive/credentials.json';
+const CREDENTIAL = './src/resources/uploadExam/ggdrive/credentials.json';
 const router = Router();
 
 router.get('/getAllFiles', async (req, clientRes) => {
@@ -51,15 +51,14 @@ router.get('/getAllFiles', async (req, clientRes) => {
 });
 router.get('/getOne', async (req, clientRes) => {
   try {
-    console.log(req.query);
     const { id } = req.query;
     console.log('test get all file');
-    const download = async auth => {
+    const download = auth => {
       const drive = google.drive({ version: 'v3', auth });
 
-      // var fileId = '1TuI1WgsC9XmWj4PBSSXVoohdSg1bT3i4'; // img
-      var fileId = '17R-pfSN8PNx8c185efLN-QXEdQL8rtdm'; // pdf
-      var dest = fs.createWriteStream(`./aaa.pdf`);
+      var fileId = '1TuI1WgsC9XmWj4PBSSXVoohdSg1bT3i4'; // img
+      // var fileId = '17R-pfSN8PNx8c185efLN-QXEdQL8rtdm'; // pdf
+      var dest = fs.createWriteStream(`./aaa.jpg`);
       // var dest;
       drive.files.get(
         { fileId: fileId, alt: 'media' },
@@ -77,13 +76,10 @@ router.get('/getOne', async (req, clientRes) => {
       );
     };
 
-    fs.readFile(
-      './src/resources/uploadExam/ggdrive/credentials.json',
-      (err, content) => {
-        if (err) return console.log('Error loading client secret file:', err);
-        ggAuthorize(JSON.parse(content), download);
-      }
-    );
+    fs.readFile(CREDENTIAL, (err, content) => {
+      if (err) return console.log('Error loading client secret file:', err);
+      ggAuthorize(JSON.parse(content), download);
+    });
   } catch (error) {
     clientRes
       .status(400)

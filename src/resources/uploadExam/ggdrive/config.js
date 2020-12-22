@@ -4,6 +4,7 @@ import readline from 'readline';
 import fs from 'fs';
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 const TOKEN_PATH = './src/resources/uploadExam/ggdrive/token.json';
+
 const getAccessToken = (oAuth2Client, callback) => {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -19,7 +20,6 @@ const getAccessToken = (oAuth2Client, callback) => {
     oAuth2Client.getToken(code, (err, token) => {
       if (err) return console.error('Error retrieving access token', err);
       oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
       fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
         if (err) return console.error(err);
         console.log('Token stored to', TOKEN_PATH);
@@ -36,17 +36,10 @@ const ggAuthorize = (credentials, callback) => {
     client_secret,
     redirect_uris[0]
   );
-
-  // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    // oAuth2ClientGlobal =  oAuth2Client;
-
     callback(oAuth2Client);
-    // return oAuth2Client;
   });
-
-  // return oAuth2Client;
 };
 export { ggAuthorize };

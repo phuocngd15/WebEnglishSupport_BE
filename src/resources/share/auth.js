@@ -22,12 +22,20 @@ const signup = async (req, res) => {
   try {
     const { email, password, fullname } = req.body;
     if (!email || !password) {
-      return res.status(203).send({ infoMessage: 'Need email and password' });
+      return res.status(201).send({
+        infoMessage: 'Need email and password',
+        isContinue: false,
+        type: 'error'
+      });
     }
 
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
-      return res.status(203).send({ infoMessage: 'Existed account' });
+      return res.status(201).send({
+        infoMessage: 'Existed account',
+        isContinue: false,
+        type: 'error'
+      });
     }
     const newAccount = {
       fullname: decrypt(fullname),
@@ -37,7 +45,7 @@ const signup = async (req, res) => {
     const account = await Account.create(newAccount);
     const token = newToken(account);
 
-    const newProfile = { accountId: account._id, fullname: fullname };
+    const newProfile = { accountId: account._id, fullname: decrypt(fullname) };
     await Profile.create(newProfile);
 
     return res
@@ -51,18 +59,35 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!decrypt(email) || !decrypt(password)) {
+      return res.status(201).send({
+        infoMessage: 'nhập đủ email và mật khẩu',
+        isContinue: false,
+        type: 'error'
+      });
+    }
+
     const emailDecrypt = decrypt(email);
     const passDecrypt = decrypt(password);
 
     const account = await Account.findOne({ email: emailDecrypt }).exec();
 
     if (!account) {
-      return res.status(203).send({ infoMessage: 'email/pass wrong' });
+      return res.status(201).send({
+        infoMessage: 'email hoặc mật khẩu sai',
+        isContinue: false,
+        type: 'error'
+      });
     }
 
     const match = await account.checkPassword(passDecrypt);
     if (!match) {
-      return res.status(203).send({ infoMessage: 'email/pass wrong' });
+      return res.status(201).send({
+        infoMessage: 'email hoặc mật khẩu sai',
+        type: 'error',
+        isContinue: false
+      });
     }
     const token = newToken(account);
     return res
