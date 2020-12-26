@@ -92,7 +92,7 @@ export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const filter = { accountId: id };
+    const filter = { _id: id };
     const update = { state: false };
     await Account.findOneAndUpdate(filter, update, {
       new: true,
