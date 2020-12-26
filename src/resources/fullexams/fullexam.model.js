@@ -4,7 +4,6 @@ const fullExamSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      default: 'Chưa cập nhật',
       required: true,
       trim: true // chuan hoa title
     },

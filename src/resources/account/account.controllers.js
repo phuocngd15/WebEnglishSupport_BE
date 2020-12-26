@@ -14,7 +14,7 @@ export const oneAccountByEmail = async (req, res) => {
 };
 export const allAcc = async (req, res) => {
   try {
-    const accs = await Account.find({}).exec();
+    const accs = await Account.find({ state: true }).exec();
     res.status(200).json({ data: accs });
   } catch (e) {
     console.error(e);
@@ -55,22 +55,11 @@ export const postPass = async (req, res) => {
 export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;
-    const getUser = await Account.find({ rule: rule });
+    const getUser = await Account.find({ rule: rule, state: true });
+    console.log(getUser);
     return res.status(200).json(getUser);
   } catch (e) {
     console.log(e);
-    res.status(400).end();
-  }
-};
-export const getClient = async (req, res) => {
-  try {
-    let rule = 4;
-    const getClient = await Account.find({ rule: rule });
-    if (!getClient) {
-      return res.status(404).send({ message: 'Invalid Document' });
-    }
-    return res.status(200).json(getClient);
-  } catch (e) {
     res.status(400).end();
   }
 };
@@ -102,10 +91,21 @@ export const postAdmin = async (req, res) => {
 export const deleteAdmin = async (req, res) => {
   try {
     const id = req.params.id;
-    await Account.findByIdAndDelete(id);
-    await Profile.findOne({ accountId: id });
+
+    const filter = { accountId: id };
+    const update = { state: false };
+    await Account.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    await Profile.findOneAndUpdate(id, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
     return res.status(200).send({
-      infoMessage: 'Xóa thành công',
+      infoMessage: 'Xóa tài khoản thành công',
       isContinue: true,
       type: 'success'
     });

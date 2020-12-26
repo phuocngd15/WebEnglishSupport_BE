@@ -32,7 +32,7 @@ const signup = async (req, res) => {
     const existedAccount = await Account.findOne({ email: decrypt(email) });
     if (existedAccount) {
       return res.status(201).send({
-        infoMessage: 'Existed account',
+        infoMessage: 'Tài khoản đã tồn tại',
         isContinue: false,
         type: 'error'
       });

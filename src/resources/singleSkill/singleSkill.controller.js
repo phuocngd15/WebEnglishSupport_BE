@@ -37,45 +37,29 @@ export const postExam = async (req, res, next) => {
 // @access   public
 export const postSingleSkill = async (req, res) => {
   try {
-    // console.log(req.body);
-    // console.log(req.file);
-    const { title, type, duration, pdf_path, audio_path } = req.body;
-    let exams = await Exam.find({ title: title, type: type, state: true });
-    let id = req.params.id;
+    const id = req.params.id;
+    const FullExam = await fullExam.findById(id);
 
-    if (exams.length > 0) {
-      res.status(404).send({ message: 'Đề thi đã tồn tại.' });
-    } else {
-      exams = new Exam({
-        title,
-        type,
-        duration,
-        pdf_path,
-        audio_path,
-        full_exam: id,
-        dapan: null
-      });
+    console.log(req.body);
+    console.log(req.file);
+    const { type, pdf_path, audio_path, dapan } = req.body;
+    const title = FullExam.title;
 
-      exams.dapan = [
-        { stt: 1, dapAn: 1 },
-        { stt: 2, dapAn: 2 }
-      ];
+    const exams = new Exam({
+      title,
+      type,
+      pdf_path,
+      audio_path,
+      full_exam: id,
+      dapan
+    });
 
-      await exams.save();
-      res.status(200).json({ data: exams });
-      console.log(exams);
-
-      // const fullexam = await fullExam.findById({ _id: id });
-      // fullexam.exam_id.push(exams);
-      // await fullexam.save();
-      // res.status(200).json({ data: fullexam });
-    }
+    await exams.save();
+    res.status(200).json({ data: exams });
+    console.log(exams);
   } catch (error) {
     console.log(error);
-    res
-      .status(400)
-      .send({ message: 'Error.' })
-      .end();
+    return res.status(500).end();
   }
 };
 

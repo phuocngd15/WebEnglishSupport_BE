@@ -23,6 +23,11 @@ const profileSchema = new mongoose.Schema(
     level: {
       type: String,
       default: 'Cấp độ 1'
+    },
+    state: {
+      type: Boolean,
+      required: true,
+      default: true
     }
   },
   { timestamps: true }

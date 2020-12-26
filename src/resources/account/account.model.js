@@ -19,8 +19,13 @@ const accountSchema = new mongoose.Schema(
       type: String,
       default: '4',
       trim: true
+    },
+    state: {
+      type: Boolean,
+      default: true
     }
   },
+
   { timestamps: true }
 );
 

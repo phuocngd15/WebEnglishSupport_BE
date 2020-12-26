@@ -8,10 +8,17 @@ export const postFullExam = async (req, res, next) => {
   try {
     const title = req.body.title;
     const description = req.body.description;
-    const fullexam = await fullExam.find({ title: title, state: true });
+    const existedFullExam = await fullExam.findOne({
+      title: title,
+      state: true
+    });
 
-    if (fullexam.length > 0) {
-      return res.status(404).send({ message: 'Đề thi đã tồn tại.' });
+    if (existedFullExam) {
+      return res.status(201).send({
+        infoMessage: 'Đề thi đã tồn tại.',
+        isContinue: false,
+        type: 'Error'
+      });
     } else {
       const fullexam = new fullExam({
         title,
