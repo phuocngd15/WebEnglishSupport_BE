@@ -72,7 +72,6 @@ const signin = async (req, res) => {
     const passDecrypt = decrypt(password);
 
     const account = await Account.findOne({ email: emailDecrypt }).exec();
-
     if (!account) {
       return res.status(201).send({
         infoMessage: 'email hoặc mật khẩu sai',
