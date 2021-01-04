@@ -109,6 +109,7 @@ export const getListFullExams = async (req, res) => {
     ]
   });
 };
+
 export const getOneFullExams = async (req, res) => {
   res.status(200).json({
     _id: req.query.id,

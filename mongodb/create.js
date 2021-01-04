@@ -2,10 +2,7 @@ var mongodb = require('mongodb');
 var assert = require('assert');
 var fs = require('fs');
 var MongoClient = mongodb.MongoClient;
-// var url = 'mongodb://localhost:27017/KoiEnglish';
-var url =
-  'mongodb+srv://trucntt1999:<password>@englishsupport.7g7vi.mongodb.net/<dbname>?retryWrites=true&w=majority';
-
+var url = 'mongodb://localhost:27017/KoiEnglish';
 MongoClient.connect(
   url,
   { useNewUrlParser: true, useUnifiedTopology: true },

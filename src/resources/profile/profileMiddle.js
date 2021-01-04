@@ -3,6 +3,7 @@ import { Account } from '../account/account.model';
 
 export default async function(req, res, next) {
   const { email } = req.body;
+  console.log('req.body', req);
   if (!email) {
     return res.status(400).end();
   }
@@ -15,5 +16,6 @@ export default async function(req, res, next) {
     return res.status(400).end();
   }
   req.body.account = account;
+  console.log('req.body.account', req.body.account);
   next();
 }

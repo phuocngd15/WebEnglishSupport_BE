@@ -12,7 +12,7 @@ import examRouter from './resources/singleSkill/singleSkill.router';
 import cardSound from './resources/cardSound/cardSound.router';
 import profileRouter from './resources/profile/profile.router';
 import fullExamRouter from './resources/fullExams/fullExams.router';
-import examHistoryRouter from './resources/examHistory/examHistory.router';
+import historyExamRecord from './resources/historyExamRecord/historyExamRecord.router';
 
 import { connect } from './resources/share/db';
 import config from './config';
@@ -40,7 +40,7 @@ app.use('/api/exam', examRouter);
 app.use('/api/fullExam', fullExamRouter);
 app.use('/api/miniExam', fullExamRouter);
 app.use('/api/profile', profileRouter);
-app.use('/api/examHistory', examHistoryRouter);
+app.use('/api/recordHistory', historyExamRecord);
 
 app.use('/cardSound', cardSound);
 app.use('/api/uploadFile', uploadFileRouter);
