@@ -4,7 +4,6 @@ import {
   allAcc,
   updateOneAcc,
   getUserByRule,
-  getClient,
   postAdmin,
   deleteAdmin,
   recoverPass

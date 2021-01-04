@@ -17,7 +17,4 @@ const examHistorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const examHistory = mongoose.model(
-  'examHistory',
-  examHistorySchema
-);
+export const examHistory = mongoose.model('examHistory', examHistorySchema);

@@ -1,29 +1,28 @@
-import { examHistory } from './examHistory.model'
+import { examHistory } from './examHistory.model';
 
 export const postExamHistory = async (req, res) => {
-    try {
-          const {point} = req.body;
-          const { accountId, fullexamId } = req.params;
-         
-          const examhistory = new examHistory({
-            point,
-            fullexamId,
-            accountId
-          });
-          await examhistory.save();
-          return res.status(200).json({ data: examhistory });
-        } catch (error) {
-        console.log(error.message);
-        res
-            .status(400)
-            .send({ message: 'Error.' })
-            .end();
-    }
-}
+  try {
+    const { point } = req.body;
+    const { accountId, fullexamId } = req.params;
+
+    const examhistory = new examHistory({
+      point,
+      fullexamId,
+      accountId
+    });
+    await examhistory.save();
+    return res.status(200).json({ data: examhistory });
+  } catch (error) {
+    res
+      .status(400)
+      .send({ message: 'Error.' })
+      .end();
+  }
+};
+
 export const getAll = async (req, res) => {
   try {
-    const {accountId} = req.params
-    console.log('accountId',accountId);
+    const { accountId } = req.params;
     const examhistory = await examHistory.find({ accountId: accountId });
     const sortedByCreattionDate = examhistory.sort(
       (a, b) => b.createdAt - a.createdAt

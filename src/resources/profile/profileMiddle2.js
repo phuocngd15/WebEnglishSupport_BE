@@ -2,7 +2,6 @@ import { decrypt } from '../share/func';
 import { Account } from '../account/account.model';
 
 export default async function(req, res, next) {
-  console.log('middle profile', req.query);
   const { email } = req.query;
   if (!email) {
     return res.status(401).end();

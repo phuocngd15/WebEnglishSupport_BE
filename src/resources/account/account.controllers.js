@@ -51,15 +51,12 @@ export const postPass = async (req, res) => {
   } */
   return res.status(500).send('Server Error');
 };
-// Truc
 export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;
     const getUser = await Account.find({ rule: rule, state: true });
-    console.log(getUser);
     return res.status(200).json(getUser);
   } catch (e) {
-    console.log(e);
     res.status(400).end();
   }
 };
@@ -83,7 +80,6 @@ export const postAdmin = async (req, res) => {
 
     return res.status(200).json(account);
   } catch (e) {
-    console.log(e);
     res.status(400).end();
   }
 };
@@ -110,7 +106,6 @@ export const deleteAdmin = async (req, res) => {
       type: 'success'
     });
   } catch (e) {
-    console.log(e);
     res.status(400).end();
   }
 };
@@ -124,7 +119,6 @@ export const recoverPass = async (req, res) => {
         .send({ infoMessage: 'email không tồn tại', type: 'error' });
     return res.status(200).send('OK');
   } catch (e) {
-    console.log(e);
     res.status(400).end();
   }
 };

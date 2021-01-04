@@ -2,8 +2,6 @@ import { Router } from 'express';
 import controllers from './card.controller';
 const router = Router();
 
-// /api/card
-
 router.route('/').get(controllers.getMany);
 
 router

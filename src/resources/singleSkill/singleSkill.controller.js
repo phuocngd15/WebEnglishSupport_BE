@@ -1,12 +1,10 @@
 import { Exam } from './singleSkill.model';
-import { fullExam } from '../fullexams/fullexam.model';
+import { fullExam } from '../fullExams/fullExams.model';
 // @route    POST api/exam/
 // @desc     post an exam
 // @access   public
 export const postExam = async (req, res, next) => {
   try {
-    // console.log(req.body);
-    // console.log(req.file);
     const { title, type, duration, pdf_path, audio_path } = req.body;
     const exam = await Exam.find({ title: title, type: type, state: true });
 
@@ -24,7 +22,6 @@ export const postExam = async (req, res, next) => {
       res.status(200).json({ data: exam });
     }
   } catch (error) {
-    console.log(error);
     res
       .status(400)
       .send({ message: 'Error.' })
@@ -40,8 +37,6 @@ export const postSingleSkill = async (req, res) => {
     const id = req.params.id;
     const FullExam = await fullExam.findById(id);
 
-    console.log(req.body);
-    console.log(req.file);
     const { type, pdf_path, audio_path, dapan } = req.body;
     const title = FullExam.title;
 
@@ -56,9 +51,7 @@ export const postSingleSkill = async (req, res) => {
 
     await exams.save();
     res.status(200).json({ data: exams });
-    console.log(exams);
   } catch (error) {
-    console.log(error);
     return res.status(500).end();
   }
 };
@@ -120,7 +113,6 @@ export const updateExam = async (req, res) => {
       res.status(200).send({ message: 'Updated.' });
     }
   } catch (error) {
-    console.log(error.message);
     res
       .status(400)
       .send({ message: 'Error.' })

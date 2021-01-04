@@ -50,7 +50,7 @@ const signup = async (req, res) => {
 
     return res
       .status(201)
-      .send([token, encrypt(account.email), encrypt(account.rule)]);
+      .send([{ tk: token }, encrypt(account.email), encrypt(account.rule)]);
   } catch (e) {
     return res.status(500).end();
   }
@@ -72,6 +72,7 @@ const signin = async (req, res) => {
     const passDecrypt = decrypt(password);
 
     const account = await Account.findOne({ email: emailDecrypt }).exec();
+
     if (!account) {
       return res.status(201).send({
         infoMessage: 'email hoặc mật khẩu sai',
@@ -91,7 +92,7 @@ const signin = async (req, res) => {
     const token = newToken(account);
     return res
       .status(201)
-      .send([token, encrypt(account.email), encrypt(account.rule)]);
+      .send([{ tk: token }, encrypt(account.email), encrypt(account.rule)]);
   } catch (e) {
     res.status(500).end();
   }

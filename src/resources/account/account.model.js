@@ -46,7 +46,6 @@ accountSchema.pre('save', function(next) {
 
 accountSchema.methods.checkPassword = function(password) {
   const passwordHash = this.password;
-  console.log(passwordHash);
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, passwordHash, (err, same) => {
       if (err) {
