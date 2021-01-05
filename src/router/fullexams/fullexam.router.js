@@ -3,7 +3,8 @@ import {
   postFullExam,
   getAll,
   getOne,
-  deleteFullExam
+  deleteFullExam,
+  getOneExamGG
 } from '../../controller/fullexam.controller';
 import { postSingleSkill } from '../../controller/singleSkill.controller';
 // import { upload } from '../share/uploadFile';
@@ -15,4 +16,6 @@ router.get('/', getAll);
 router.get('/:id', getOne);
 router.post('/:id/exam', postSingleSkill);
 router.post('/delete/:id', deleteFullExam);
+
+router.get('/info', getOneExamGG);
 export default router;

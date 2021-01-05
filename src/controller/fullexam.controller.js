@@ -102,3 +102,21 @@ export const deleteFullExam = async (req, res) => {
     res.status(400).end();
   }
 };
+
+export const getOneExamGG =async (req, res)=>{
+  try {
+    const fullexam = await fullExam
+      .findById({ _id: req.params.id, state: true })
+      .select('-state')
+      .populate({ path: 'examRef', select: 'title dapan pdf_path audio_path' });
+
+    if (!fullexam) {
+      res.status(404).send({ message: 'Invalid Document' });
+    }
+    console.log(fullexam);
+    res.status(200).json(fullexam);
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).end();
+  }
+}

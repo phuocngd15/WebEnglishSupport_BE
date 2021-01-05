@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { google } from 'googleapis';
 import fs from 'fs';
 import { ggAuthorize } from './ggdrive/config';
+import multer from 'multer';
 const CREDENTIAL = './src/resources/uploadExam/ggdrive/credentials.json';
 const router = Router();
 
@@ -88,4 +89,105 @@ router.get('/getOne/:id', async (req, clientRes) => {
       .send('Error while getting list of files. Try again later.');
   }
 });
+
+const upload = multer({
+  storage: multer.diskStorage({
+    // destination(req, file, cb) {
+    //   cb(null, "./files");
+    // },
+    filename(req, file, cb) {
+      cb(null, `${file.originalname}`);
+    }
+  }),
+  limits: {
+    fileSize: 50 * 1024 * 1024 // max file size 1MB = 1000000 bytes
+  },
+  fileFilter(req, file, cb) {
+    if (
+      !file.originalname.match(/\.(jpeg|jpg|png|pdf|doc|docx|xlsx|xls|mp3)$/)
+    ) {
+      return cb(
+        new Error(
+          'only upload files with jpg, jpeg, png, pdf, doc, docx, xslx, xls format.'
+        )
+      );
+    }
+    cb(undefined, true); // continue with upload
+  }
+});
+
+router.post(
+  '/upload',
+  upload.single('file'),
+  async (req, clientRes) => {
+    try {
+      const { title, description } = req.body;
+      const { path, mimetype } = req.file;
+
+      console.log(req.file);
+      /*  fileName = req.file.filename;
+      mimeType = mimetype;
+      place = path;
+      const file = new File({
+        title,
+        description,
+        file_path: path,
+        file_mimetype: mimetype
+      }); */
+      const uploadFile = auth => {
+        const drive = google.drive({ version: 'v3', auth });
+
+        var fileMetadata = {
+          // name: "audio.mp3",
+          name: req.file.filename
+        };
+        var media = {
+          // mimeType: "audio/mpeg",
+          mimeType: mimetype,
+          // body: fs.createReadStream("files/audio.mp3"),
+          body: fs.createReadStream(path)
+        };
+        // console.log(fileMetadata," ", media)
+        drive.files.create(
+          {
+            resource: fileMetadata,
+            media: media,
+            fields: 'id'
+          },
+          function(err, file) {
+            if (err) {
+              // Handle error
+              console.error(err);
+            } else {
+              console.log('File : ', file.data);
+            }
+          }
+        );
+      };
+      fs.readFile('credentials.json', (err, content) => {
+        if (err) return console.log('Error loading client secret file:', err);
+        // Authorize a client with credentials, then call the Google Drive API.
+        //   authorize(JSON.parse(content), uploadFile);
+        ggAuthorize(JSON.parse(content), uploadFile);
+      });
+
+      //  console.log(file);
+      // fs.unlinkSync(req.file.path);
+
+      clientRes.send('file uploaded successfully.');
+
+      //   await file.save();
+      //   res.send("file uploaded successfully.");.
+    } catch (error) {
+      clientRes
+        .status(400)
+        .send('Error while uploading file. Try again later.');
+    }
+  },
+  (error, req, res, next) => {
+    if (error) {
+      res.status(500).send(error.message);
+    }
+  }
+);
 export default router;
