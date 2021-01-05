@@ -30,23 +30,22 @@
     "bcrypt": "^3.0.2",
     "body-parser": "^1.19.0",
     "config": "^3.3.3",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
+<<<<<<< HEAD
     "cuid": "^2.1.4",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
+=======
+>>>>>>> Truc
     "express": "^4.17.1",
-    "googleapis": "^66.0.0",
-    "jade": "^1.11.0",
+    "express-fileupload": "^1.2.0",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.10.2",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "streamifier": "^0.1.1",
-    "validator": "^10.9.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
