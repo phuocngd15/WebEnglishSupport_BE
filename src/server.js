@@ -1,20 +1,20 @@
 import express from 'express';
 import { json, urlencoded } from 'body-parser';
+import fileupload from 'express-fileupload';
+import fs from 'fs';
+
 import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
-import { signup, signin, protect } from './resources/share/auth';
+import { signup, signin } from './router/account/auth';
 
-import cardRouter from './resources/cards/card.router';
-import uploadFileRouter from './resources/uploadExam/fileExam.router';
-import accountRouter from './resources/account/account.router';
-import examRouter from './resources/singleSkill/singleSkill.router';
-import cardSound from './resources/cardSound/cardSound.router';
-import profileRouter from './resources/profile/profile.router';
-import fullExamRouter from './resources/fullexams/fullexam.router';
-import examHistoryRouter from './resources/examHistory/examHistory.router';
+import accountRouter from './router/account/account.router';
+import examRouter from './router/singleSkill/singleSkill.router';
+import profileRouter from './router/profile/profile.router';
+import fullExamRouter from './router/fullexams/fullexam.router';
+import examHistoryRouter from './router/examHistory/examHistory.router';
 
-import { connect } from './resources/share/db';
+import { connect } from './router/share/db';
 import config from './config';
 export const app = express();
 
@@ -28,22 +28,27 @@ app.use(
     extended: true
   }) // alow use parameter when req
 );
+app.use(fileupload());
 app.use(morgan('dev'));
 
 app.post('/signup', signup);
 app.post('/signin', signin);
-// app.use('/api', protect);
 
 app.use('/api/account', accountRouter);
-app.use('/api/card', cardRouter);
 app.use('/api/exam', examRouter);
 app.use('/api/fullexam', fullExamRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/examHistory', examHistoryRouter);
+app.get('/pdf/:id', (req, res) => {
 
-app.use('/cardSound', cardSound);
-app.use('/api/uploadFile', uploadFileRouter);
+  var file = fs.createReadStream(`public/upload/RC01.pdf`);
+  file.pipe(res);
+});
+// app.get('/audio', (req, res)=>{
+//   var file = fs.createReadStream(`public/upload/TEST01.mp3`);
+//     file.pipe(res);
 
+// })
 export const start = async () => {
   try {
     await connect();
