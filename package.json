@@ -32,13 +32,10 @@
     "config": "^3.3.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
-<<<<<<< HEAD
     "cuid": "^2.1.4",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
-=======
->>>>>>> Truc
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "fs": "^0.0.1-security",
