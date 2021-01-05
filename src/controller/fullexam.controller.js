@@ -1,5 +1,5 @@
 import { fullExam } from '../model/fullexam.model';
-
+import { singleSkill } from '../model/singleSkill.model';
 // @route    POST api/fullexams/
 // @desc     create fullexam // 2 m
 // @access   public
@@ -78,8 +78,15 @@ export const deleteFullExam = async (req, res) => {
     const id = req.params.id;
 
     const filter = { _id: id };
+    const filterExam = { full_exam: id };
+
     const update = { state: false };
     await fullExam.findOneAndUpdate(filter, update, {
+      new: true,
+      upsert: true,
+      rawResult: true
+    });
+    await singleSkill.findOneAndUpdate(filterExam, update, {
       new: true,
       upsert: true,
       rawResult: true

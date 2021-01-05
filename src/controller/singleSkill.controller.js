@@ -54,7 +54,7 @@ export const postSingleSkill = async (req, res) => {
         let dl = file[i];
 
         uploadFile(dl);
-        let path = `public/upload/${file[i].name}`;
+        let path = file[i].name;
         if (file[i].mimetype == 'application/pdf') {
           pdf_path = path;
         }
@@ -64,7 +64,7 @@ export const postSingleSkill = async (req, res) => {
       console.log(pdf_path, audio_path);
     } else {
       uploadFile(file);
-      pdf_path = `public/upload/${file.name}`;
+      pdf_path = file.name;
     }
     const title = FullExam.title;
     const exams = new Exam({
@@ -169,9 +169,34 @@ export const deleteExam = async (req, res, next) => {
   }
 };
 
-export const getFile = (req, res) => {
-  const id = req.params.id
-  // const exam 
-  var file = fs.createReadStream(`public/upload/${path}`);
-  file.pipe(res);
+export const getPdfRC = async (req, res) => {
+ 
+  let exam = await Exam.findOne({full_exam:req.params.id, type:'Reading'})
+  if (!exam) {
+    res.status(400).send({ message: 'Invalid document.' });
+  } else {
+    var file = fs.createReadStream(`public/upload/${exam.pdf_path}`);
+    file.pipe(res);
+  }
+};
+export const getPdfLC = async (req, res) => {
+  let exam = await Exam.findOne({ full_exam: req.params.id, type: 'Listening' });
+  if (!exam) {
+    res.status(400).send({ message: 'Invalid document.' });
+  } else {
+    var file = fs.createReadStream(`public/upload/${exam.pdf_path}`);
+    file.pipe(res);
+  }
+};
+export const getAudio = async (req, res) => {
+  let exam = await Exam.findOne({
+    full_exam: req.params.id,
+    type: 'Listening'
+  });
+  if (!exam) {
+    res.status(400).send({ message: 'Invalid document.' });
+  } else {
+    var file = fs.createReadStream(`public/upload/${exam.audio_path}`);
+    file.pipe(res);
+  }
 };

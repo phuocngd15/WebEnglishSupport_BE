@@ -5,7 +5,9 @@ import {
   getOneExam,
   updateExam,
   deleteExam,
-  getFile
+  getPdfRC,
+  getPdfLC,
+  getAudio
 } from '../../controller/singleSkill.controller';
 
 const router = Router();
@@ -15,8 +17,9 @@ router.get('/', getAllExams);
 router.get('/:id', getOneExam);
 router.post('/:id', updateExam);
 router.delete('/:id', deleteExam);
-router.get('/:id/pdf', getFile);
-router.get('/:id/audio', getFile);
+router.get('/:id/pdf/RC', getPdfRC);
+router.get('/:id/pdf/LC', getPdfLC);
+router.get('/:id/audio', getAudio)
 
 export default router;
 
