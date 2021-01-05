@@ -43,16 +43,16 @@ app.use('/api/miniExam', fullExamRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/recordHistory', historyExamRecord);
 app.use('/api/examHistory', examHistoryRouter);
-app.get('/pdf/:id', (req, res) => {
+app.get('/pdf', (req, res) => {
 
   var file = fs.createReadStream(`public/upload/RC01.pdf`);
   file.pipe(res);
 });
-// app.get('/audio', (req, res)=>{
-//   var file = fs.createReadStream(`public/upload/TEST01.mp3`);
-//     file.pipe(res);
+app.get('/audio', (req, res)=>{
+  var file = fs.createReadStream(`public/upload/TEST01.mp3`);
+    file.pipe(res);
 
-// })
+})
 export const start = async () => {
   try {
     await connect();
