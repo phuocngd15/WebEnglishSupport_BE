@@ -35,7 +35,6 @@ export const updateOneAcc = async (req, res) => {
     res.status(400).end();
   }
 };
-<<<<<<< HEAD:src/resources/account/account.controllers.js
 export const postPass = async (req, res) => {
   /*   try {
     const { value, email } = req.body;
@@ -52,9 +51,6 @@ export const postPass = async (req, res) => {
   } */
   return res.status(500).send('Server Error');
 };
-=======
-// Truc
->>>>>>> Truc:src/controller/account.controller.js
 export const getUserByRule = async (req, res) => {
   try {
     const rule = req.params.rule;

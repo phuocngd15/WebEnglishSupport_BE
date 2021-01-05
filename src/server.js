@@ -6,30 +6,15 @@ import fs from 'fs';
 import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
-<<<<<<< HEAD
-import { signup, signin, protect } from './resources/share/auth';
-
-import cardRouter from './resources/cards/card.router';
-import uploadFileRouter from './resources/uploadExam/fileExam.router';
-import accountRouter from './resources/account/account.router';
-import examRouter from './resources/singleSkill/singleSkill.router';
-import cardSound from './resources/cardSound/cardSound.router';
-import profileRouter from './resources/profile/profile.router';
-import fullExamRouter from './resources/fullExams/fullExams.router';
-import historyExamRecord from './resources/historyExamRecord/historyExamRecord.router';
-
-import { connect } from './resources/share/db';
-=======
-import { signup, signin } from './router/account/auth';
+import { signup, signin, protect } from './router/account/auth';
 
 import accountRouter from './router/account/account.router';
 import examRouter from './router/singleSkill/singleSkill.router';
 import profileRouter from './router/profile/profile.router';
 import fullExamRouter from './router/fullexams/fullexam.router';
 import examHistoryRouter from './router/examHistory/examHistory.router';
-
+import historyExamRecord from './router/examHistory/examHistory.router'
 import { connect } from './router/share/db';
->>>>>>> Truc
 import config from './config';
 export const app = express();
 
@@ -56,12 +41,9 @@ app.use('/api/exam', examRouter);
 app.use('/api/fullExam', fullExamRouter);
 app.use('/api/miniExam', fullExamRouter);
 app.use('/api/profile', profileRouter);
-<<<<<<< HEAD
 app.use('/api/recordHistory', historyExamRecord);
-=======
 app.use('/api/examHistory', examHistoryRouter);
 app.get('/pdf/:id', (req, res) => {
->>>>>>> Truc
 
   var file = fs.createReadStream(`public/upload/RC01.pdf`);
   file.pipe(res);

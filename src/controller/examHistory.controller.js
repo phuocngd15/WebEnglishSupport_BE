@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/resources/examHistory/examHistory.controller.js
-import { examHistory } from './examHistory.model';
-=======
 import { examHistory } from '../model/examHistory.model'
->>>>>>> Truc:src/controller/examHistory.controller.js
 
 export const postExamHistory = async (req, res) => {
   try {
