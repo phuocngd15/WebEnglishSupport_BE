@@ -25,7 +25,7 @@ export const postFullExam = async (req, res, next) => {
         description
       });
       await fullexam.save();
-      return res.status(200).json(fullexam );
+      return res.status(200).json(fullexam);
     }
   } catch (error) {
     console.log(error.message);
@@ -35,7 +35,6 @@ export const postFullExam = async (req, res, next) => {
       .end();
   }
 };
-
 
 // @route    GET api/fullexam/
 // @desc     get all fullexam
@@ -66,16 +65,15 @@ export const getOne = async (req, res) => {
     if (!fullexam) {
       res.status(404).send({ message: 'Invalid Document' });
     }
-    console.log(fullexam)
+    console.log(fullexam);
     res.status(200).json(fullexam);
-    
   } catch (error) {
     console.error(error.message);
     res.status(400).end();
   }
 };
 
-export const deleteFullExam = async(req, res)=>{
+export const deleteFullExam = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -86,7 +84,7 @@ export const deleteFullExam = async(req, res)=>{
       upsert: true,
       rawResult: true
     });
- 
+
     return res.status(200).send({
       infoMessage: 'Xóa tài khoản thành công',
       isContinue: true,
@@ -96,4 +94,4 @@ export const deleteFullExam = async(req, res)=>{
     console.log(e);
     res.status(400).end();
   }
-}
+};

@@ -13,8 +13,10 @@ import examRouter from './router/singleSkill/singleSkill.router';
 import profileRouter from './router/profile/profile.router';
 import fullExamRouter from './router/fullexams/fullexam.router';
 import examHistoryRouter from './router/examHistory/examHistory.router';
-import historyExamRecord from './router/examHistory/examHistory.router'
+import historyExamRecord from './router/examHistory/examHistory.router';
 import { connect } from './router/share/db';
+import uploadFileGG from './resources/uploadExam/fileExam.router';
+
 import config from './config';
 export const app = express();
 
@@ -35,7 +37,6 @@ app.post('/signup', signup);
 app.post('/signin', signin);
 // app.use('/api', protect);
 
-
 app.use('/api/account', accountRouter);
 app.use('/api/exam', examRouter);
 app.use('/api/fullExam', fullExamRouter);
@@ -44,15 +45,16 @@ app.use('/api/profile', profileRouter);
 app.use('/api/recordHistory', historyExamRecord);
 app.use('/api/examHistory', examHistoryRouter);
 app.get('/pdf', (req, res) => {
-
   var file = fs.createReadStream(`public/upload/RC01.pdf`);
   file.pipe(res);
 });
-app.get('/audio', (req, res)=>{
+app.get('/audio', (req, res) => {
   var file = fs.createReadStream(`public/upload/TEST01.mp3`);
-    file.pipe(res);
+  file.pipe(res);
+});
 
-})
+app.use('/api/uploadFile', uploadFileGG);
+
 export const start = async () => {
   try {
     await connect();

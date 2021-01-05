@@ -39,6 +39,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "fs": "^0.0.1-security",
+    "googleapis": "^66.0.0",
     "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.10.2",
