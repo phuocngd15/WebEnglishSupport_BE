@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { postExamHistory, getAll } from  '../../controller/examHistory.controller';
+import {
+  postExamHistory,
+  getAll
+} from '../../controller/examHistory.controller';
 
 const router = Router();
 

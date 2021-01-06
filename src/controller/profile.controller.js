@@ -1,4 +1,4 @@
-import {Profile} from '../model/profile.model';
+import { Profile } from '../model/profile.model';
 
 export const getOneProfile = async (req, res) => {
   try {
@@ -34,7 +34,7 @@ export const postPhone = async (req, res) => {
       .status(200)
       .json({ infoMessage: 'cập nhật SĐT thành công', isContinue: true });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(500).send('Server Error');
   }
 };

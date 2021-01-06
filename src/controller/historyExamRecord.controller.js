@@ -1,4 +1,4 @@
-import { HistoryExamRecord } from './historyExamRecord.model';
+import { HistoryExamRecord } from '../model/historyExamRecord.model';
 import { format } from 'date-fns';
 
 export const submitExam = async (req, res) => {
@@ -41,7 +41,8 @@ export const getAnalyzeByEmail = async (req, res) => {
   };
 
   const { labelDate, values } = await calculate(month, year);
-
+  console.log('labelDate', labelDate);
+  console.log('values', values);
   res.status(200).send({ labelDate: labelDate, values: values });
 };
 

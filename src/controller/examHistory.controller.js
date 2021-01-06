@@ -1,4 +1,4 @@
-import { examHistory } from '../model/examHistory.model'
+import { examHistory } from '../model/examHistory.model';
 
 export const postExamHistory = async (req, res) => {
   try {

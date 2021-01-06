@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import profileMiddle from '../profile/profileMiddle';
 import profileMiddle2 from '../profile/profileMiddle2';
-import { submitExam, getAnalyzeByEmail } from '../../controller/historyExamRecord.controller'
+import {
+  submitExam,
+  getAnalyzeByEmail
+} from '../../controller/historyExamRecord.controller';
 
 const router = Router();
 

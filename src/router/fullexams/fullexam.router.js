@@ -13,9 +13,9 @@ const router = Router();
 
 router.post('/', postFullExam);
 router.get('/', getAll);
+router.get('/ggCloud/info', getOneExamGG);
 router.get('/:id', getOne);
 router.post('/:id/exam', postSingleSkill);
 router.post('/delete/:id', deleteFullExam);
 
-router.get('/info', getOneExamGG);
 export default router;

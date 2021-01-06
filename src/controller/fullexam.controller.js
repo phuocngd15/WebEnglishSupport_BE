@@ -1,5 +1,9 @@
 import { fullExam } from '../model/fullexam.model';
 import { singleSkill } from '../model/singleSkill.model';
+
+// upload de khop voi gg
+// get de khop voi gg
+
 // @route    POST api/fullexams/
 // @desc     create fullexam // 2 m
 // @access   public
@@ -56,6 +60,8 @@ export const getAll = async (req, res) => {
 // @desc     get all fullexam
 // @access   public
 export const getOne = async (req, res) => {
+  console.log('aaaaaaa');
+
   try {
     const fullexam = await fullExam
       .findById({ _id: req.params.id, state: true })
@@ -103,20 +109,21 @@ export const deleteFullExam = async (req, res) => {
   }
 };
 
-export const getOneExamGG =async (req, res)=>{
+export const getOneExamGG = async (req, res) => {
   try {
-    const fullexam = await fullExam
-      .findById({ _id: req.params.id, state: true })
+    console.log('req.query', req.query);
+    let fullexam = await fullExam
+      .findById({ _id: req.query.id, state: true })
       .select('-state')
       .populate({ path: 'examRef', select: 'title dapan pdf_path audio_path' });
 
     if (!fullexam) {
       res.status(404).send({ message: 'Invalid Document' });
     }
-    console.log(fullexam);
+    console.log('te', fullexam);
     res.status(200).json(fullexam);
   } catch (error) {
     console.error(error.message);
     res.status(400).end();
   }
-}
+};

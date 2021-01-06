@@ -13,7 +13,7 @@ import examRouter from './router/singleSkill/singleSkill.router';
 import profileRouter from './router/profile/profile.router';
 import fullExamRouter from './router/fullexams/fullexam.router';
 // import examHistoryRouter from './router/examHistory/examHistory.router';
-import historyExamRecord from './router/examHistory/examHistory.router';
+import historyExamRecord from './router/historyExamRecord/historyExamRecord.router';
 import { connect } from './router/share/db';
 import uploadFileGG from './resources/uploadExam/fileExam.router';
 
@@ -65,3 +65,6 @@ export const start = async () => {
     console.error(e);
   }
 };
+
+// load de thi da xong
+//

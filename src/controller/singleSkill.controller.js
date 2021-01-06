@@ -170,8 +170,7 @@ export const deleteExam = async (req, res, next) => {
 };
 
 export const getPdfRC = async (req, res) => {
- 
-  let exam = await Exam.findOne({full_exam:req.params.id, type:'Reading'})
+  let exam = await Exam.findOne({ full_exam: req.params.id, type: 'Reading' });
   if (!exam) {
     res.status(400).send({ message: 'Invalid document.' });
   } else {
@@ -180,7 +179,10 @@ export const getPdfRC = async (req, res) => {
   }
 };
 export const getPdfLC = async (req, res) => {
-  let exam = await Exam.findOne({ full_exam: req.params.id, type: 'Listening' });
+  let exam = await Exam.findOne({
+    full_exam: req.params.id,
+    type: 'Listening'
+  });
   if (!exam) {
     res.status(400).send({ message: 'Invalid document.' });
   } else {

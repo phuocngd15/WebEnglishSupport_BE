@@ -1,4 +1,4 @@
-import { Account } from '../model/account.model'
+import { Account } from '../model/account.model';
 import { decrypt } from '../router/share/func';
 import { Profile } from '../model/profile.model';
 

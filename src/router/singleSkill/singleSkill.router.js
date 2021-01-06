@@ -19,7 +19,6 @@ router.post('/:id', updateExam);
 router.delete('/:id', deleteExam);
 router.get('/:id/pdf/RC', getPdfRC);
 router.get('/:id/pdf/LC', getPdfLC);
-router.get('/:id/audio', getAudio)
+router.get('/:id/audio', getAudio);
 
 export default router;
-
